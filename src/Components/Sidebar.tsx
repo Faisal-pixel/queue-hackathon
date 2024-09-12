@@ -20,7 +20,7 @@ export default function Sidebar() {
       <nav className="flex-1 p-4">
         <ul className="space-y-10 pt-10">
           <NavLink
-            to="/queue"
+            to="/admin-queue"
             className={({ isActive }: NavLinkRenderProps) =>
               `group flex items-center transition  ${isActive ? "text-orange-500" : ""
               }`
