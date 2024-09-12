@@ -78,21 +78,21 @@ const Landing = () => {
             <div id="Service">
                 <section className="bg-gray-50 py-12 px-4">
                     <div className="max-w-2xl mx-auto text-center">
-                        <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                        <h2 className="text-3xl font-light text-gray-800 italic">
                             Your Solution to Endless Waiting!
                         </h2>
                         <p className=" text-xl font-semibold text-gray-600 mb-6 ">
                             Queuenot is your ultimate solution to prevent long queues and enhance your waiting experience. Our platform allows you to manage your time better by letting you pre-book your place in line. No more wasting hours—we help you get where you need to be, on time!
                         </p>
-                        <button className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-400">
+                        {/* <button className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-400">
                             Get Started
-                        </button>
+                        </button> */}
                     </div>
                 </section>
 
                 <section className="bg-white py-12 px-4">
                     <div className="max-w-2xl mx-auto text-center">
-                        <h2 className="text-4xl font-bold text-gray-800 mb-6">How Queuenot Works</h2>
+                        <h2 className="text-4xl font-bold text-gray-800 mb-6">How QueueNot Works</h2>
                         <p className="text-lg text-gray-600 mb-8">
                             Follow these easy steps to skip the queue and save time!
                         </p>
@@ -126,7 +126,7 @@ const Landing = () => {
             <div className=" pt-14 " id="Team">
                 <div>
                     <div className="container">
-                        <h2 className="text-3xl font-bold text-gray-800 mb-4 text-center pb-5">Meet The Team</h2>
+                        <h2 className="text-3xl font-bold text-gray-800 p-2 text-center pb-5">Meet The Team</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {contribution}
                         </div>
@@ -137,49 +137,9 @@ const Landing = () => {
             {/* Footer */}
             <footer className="bg-gray-600 py-8 mt-20">
                 <div className="max-w-6xl mx-auto px-4">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {/* Navigation Links */}
-                        <div>
-                            <h4 className="text-xl font-semibold text-white mb-4">Quick Links</h4>
-                            <ul>
-                                <li className="mb-2">
-                                    <a href="/" className="text-white hover:text-orange-300">Home</a>
-                                </li>
-                                <li className="mb-2">
-                                    <a href="/features" className="text-white hover:text-orange-300">Features</a>
-                                </li>
-                                <li className="mb-2">
-                                    <a href="/about" className="text-white hover:text-orange-300">About Us</a>
-                                </li>
-                                <li className="mb-2">
-                                    <a href="/contact" className="text-white hover:text-orange-300">Contact</a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        {/* Contact Information */}
-                        <div>
-                            <h4 className="text-xl font-semibold text-white mb-4">Contact Us</h4>
-                            <p className="text-white mb-2">Email: support@queuenot.com</p>
-                            <p className="text-white mb-2">Phone: (123) 456-7890</p>
-                            <p className="text-white">Address: 123 Queue St, City, Country</p>
-                        </div>
-
-                        {/* Social Media Links */}
-                        <div>
-                            <h4 className="text-xl font-semibold text-white mb-4">Follow Us</h4>
-                            <div className="flex space-x-4">
-                                <a href="#" className="text-white hover:text-orange-300">Facebook</a>
-                                <a href="#" className="text-white hover:text-orange-300">Twitter</a>
-                                <a href="#" className="text-white hover:text-orange-300">Instagram</a>
-                                <a href="#" className="text-white hover:text-orange-300">LinkedIn</a>
-                            </div>
-                        </div>
-                    </div>
-
                     <div className="border-t border-gray-300 mt-8 pt-4">
                         <p className="text-center text-gray-300">
-                            &copy; {new Date().getFullYear()} Queuenot. All rights reserved.
+                            &copy; {new Date().getFullYear()} QueueNot. All rights reserved.
                         </p>
                     </div>
                 </div>
