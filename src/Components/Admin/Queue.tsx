@@ -118,7 +118,7 @@ const TicketTable: React.FC<TicketTableProps> = ({
                         onChange={(e) => handleNewTicketChange('phone', e.target.value)}
                         className={`border p-1 ${!isValidPhone(newTicket.phone as string) ? 'border-red-500' : ''}`}
                     />
-                    <select
+                    {/* <select
                         value={newTicket.status}
                         onChange={(e) => handleNewTicketChange('status', e.target.value)}
                         className="border p-1"
@@ -126,8 +126,7 @@ const TicketTable: React.FC<TicketTableProps> = ({
                         <option value="in process">in process</option>
                         <option value="Ready">Ready</option>
                         <option value="declined">declined</option>
-                        <option value="Out of Store">Out of store</option>
-                    </select>
+                    </select> */}
                     <input
                         type="number"
                         placeholder="Ready Time in minutes"
@@ -165,7 +164,7 @@ const TicketTable: React.FC<TicketTableProps> = ({
                             <th className="border px-4 py-2 text-center">Name</th>
                             <th className="border px-4 py-2 text-center">Email</th>
                             <th className="border px-4 py-2 text-center">Phone</th>
-                            <th className="border px-4 py-2 text-center">Status</th>
+                            {/* <th className="border px-4 py-2 text-center">Status</th> */}
                             <th className="border px-4 py-2 text-center">Ready In</th>
                             <th className="border px-4 py-2 text-center">Actions</th>
                         </tr>
@@ -198,7 +197,7 @@ const TicketTable: React.FC<TicketTableProps> = ({
                                         className={`border p-1 w-full ${!isValidPhone(ticket.phone as string) ? 'border-red-500' : ''}`}
                                     />
                                 </td>
-                                <td className="border px-4 py-2 text-center">
+                                {/* <td className="border px-4 py-2 text-center">
                                     <select
                                         value={ticket.status}
                                         onChange={(e) => onStatusChange(ticket.id as number, e.target.value)}
@@ -209,7 +208,7 @@ const TicketTable: React.FC<TicketTableProps> = ({
                                         <option value="declined">declined</option>
                                         <option value="Out of Store">Out of store</option>
                                     </select>
-                                </td>
+                                </td> */}
                                 <td className="border px-4 py-2 text-center">
                                     <input
                                         type="number"
