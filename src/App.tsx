@@ -173,15 +173,6 @@ const App: React.FC = () => {
             }
           />
 
-          {/* <Route
-            path="/add-staff"
-            element={
-              <div className="flex">
-                <Sidebar />
-                <AddStaff />
-              </div>
-            }
-          /> */}
           <Route
             path="/settings"
             element={
