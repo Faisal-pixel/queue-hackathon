@@ -1,6 +1,6 @@
-import { useContext } from 'react';
+// import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User } from 'firebase/auth';
+// import { User } from 'firebase/auth';
 
 function SigninAsAdmin() {
     // const [isLoginAsStaff, setIsLoginAsStaff] = useState(false);
@@ -59,16 +59,16 @@ function SigninAsAdmin() {
 
 
     return (
-        <div className="h-screen flex flex-col items-center justify-center pl-80">
-            <div className="space-y-4 mb-8">
+        <div className="flex items-center justify-center  w-[75%]">
+            <div className='space-x-2'>
                 <button
-                    className="login-button bg-orange-400 text-white py-4 px-4 rounded-md hover:bg-blue-600 md:mr-20"
+                    className="login-button bg-orange-400 text-white p-4 rounded-md hover:bg-blue-400 md:p-4"
                     onClick={handleStaffLogin}
                 >
                     Log in as Staff
                 </button>
                 <button
-                    className="login-button bg-orange-400 text-white py-4 px-4 rounded-md hover:bg-green-600"
+                    className="login-button bg-orange-400 text-white p-4 rounded-md hover:bg-green-400"
                     onClick={handleAdminLogin}
                 >
                     Log in as Admin

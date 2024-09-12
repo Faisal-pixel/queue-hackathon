@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-// import { HackathonContext } from "../context/hackathonContext";
 import { TSMEEmployee } from "../types";
 
 
@@ -12,24 +11,6 @@ const StaffManager: React.FC = () => {
     const [editingStaffId, setEditingStaffId] = useState<string | null>(null);
     const [editingStaffName, setEditingStaffName] = useState("");
     const [editingStaffEmail, setEditingStaffEmail] = useState("");
-
-    // const { employee, staffList, setStaffList } = useContext(HackathonContext);
-
-    // Load the staff list from localStorage when the component mounts
-    // useEffect(() => {
-    //     const savedStaffList = localStorage.getItem("staffList");
-    //     if (savedStaffList) {
-    //         setStaffList?.([JSON.parse(savedStaffList)]);
-    //     }
-    //     console.log(savedStaffList);
-    // }, [setStaffList]);
-
-    // Save the staff list to localStorage whenever it changes
-    // useEffect(() => {
-    //     if (staffList.length > 0) {
-    //         localStorage.setItem("staffList", JSON.stringify(staffList));
-    //     }
-    // }, [staffList]);
 
     const generateNextId = (): string => {
         if (staffList.length === 0) return "001";
@@ -81,24 +62,24 @@ const StaffManager: React.FC = () => {
     };
 
     return (
-        <div className="flex  min-h-screen pl-[300px]">
+        <div className="flex  min-h-screen w-[75%]">
             <div className="p-4 w-full max-w-4xl">
-                <h1 className="text-3xl font-bold mb-4 pt-5 text-center">Staff Management</h1>
+                <h1 className="text-3xl font-bold text-center">Staff Management</h1>
                 {showAddStaff ? (
-                    <div className="mb-4">
+                    <div className="translate-y-8 grid grid-cols-2 gap-4">
                         <input
                             type="text"
                             placeholder="Enter name"
                             value={newStaffName}
                             onChange={(e) => setNewStaffName(e.target.value)}
-                            className="p-2 border border-gray-300 rounded mr-2"
+                            className="p-2 border border-gray-300 rounded"
                         />
                         <input
                             type="email"
                             placeholder="Enter email"
                             value={newStaffEmail}
                             onChange={(e) => setNewStaffEmail(e.target.value)}
-                            className="p-2 border border-gray-300 rounded mr-2"
+                            className="p-2 border border-gray-300 rounded"
                         />
                         <button
                             onClick={handleAddStaff}
@@ -108,7 +89,7 @@ const StaffManager: React.FC = () => {
                         </button>
                         <button
                             onClick={() => setShowAddStaff(false)}
-                            className="p-2 bg-red-500 text-white rounded ml-2"
+                            className="p-2 bg-red-500 text-white rounded"
                         >
                             Cancel
                         </button>
@@ -116,81 +97,20 @@ const StaffManager: React.FC = () => {
                 ) : (
                     <button
                         onClick={() => setShowAddStaff(true)}
-                        className="p-2 bg-orange-500 text-white rounded mb-4"
+                        className="p-2 bg-orange-500 text-white rounded translate-y-6"
                     >
                         Add Staff
                     </button>
                 )}
-
-                <table className="w-full bg-gray-100 rounded-lg">
+                <table className="w-full bg-gray-100 rounded-lg translate-y-10">
                     <thead>
                         <tr className="bg-gray-300">
-                            <th className="px-4 py-2">ID</th>
-                            <th className="px-4 py-2">Name</th>
-                            <th className="px-4 py-2">Email</th>
-                            <th className="px-4 py-2">Actions</th>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
-                    {/* <tbody>
-                        {staffList.length === 0 ? (
-                            <tr>
-                                <td colSpan={4} className="text-center py-4">No staff yet</td>
-                            </tr>
-                        ) : (
-                            staffList.map((staff) => (
-                                <tr key={staff.id} className="hover:bg-gray-300">
-                                    <td className="border px-4 py-2 text-center">{staff.id}</td>
-                                    <td className="border px-4 py-2 text-center">
-                                        {editingStaffId === staff.id ? (
-                                            <input
-                                                type="text"
-                                                value={editingStaffName}
-                                                onChange={(e) => setEditingStaffName(e.target.value)}
-                                                className="p-1 border border-gray-300 rounded"
-                                            />
-                                        ) : (
-                                            staff.name
-                                        )}
-                                    </td>
-                                    <td className="border px-4 py-2 text-center">
-                                        {editingStaffId === staff.id ? (
-                                            <input
-                                                type="email"
-                                                value={editingStaffEmail}
-                                                onChange={(e) => setEditingStaffEmail(e.target.value)}
-                                                className="p-1 border border-gray-300 rounded"
-                                            />
-                                        ) : (
-                                            staff.email
-                                        )}
-                                    </td>
-                                    <td className="border px-4 py-2 text-center">
-                                        {editingStaffId === staff.id ? (
-                                            <button
-                                                onClick={handleSaveEdit}
-                                                className="p-2 bg-green-500 text-white rounded mr-2"
-                                            >
-                                                Save
-                                            </button>
-                                        ) : (
-                                            <button
-                                                onClick={() => handleEditStaff(staff.id)}
-                                                className="p-2 bg-yellow-500 text-white rounded mr-2"
-                                            >
-                                                Edit
-                                            </button>
-                                        )}
-                                        <button
-                                            onClick={() => handleDeleteStaff(staff.id)}
-                                            className="p-2 bg-red-500 text-white rounded"
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))
-                        )}
-                    </tbody> */}
                 </table>
             </div>
         </div>

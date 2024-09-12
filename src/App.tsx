@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect} from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SigninAsAdmin from './Components/Sign_In/SigninForAdmin'
 import Sidebar from "./Components/Sidebar"
@@ -7,6 +7,7 @@ import AddStaff from "./Components/Admin/AddStaff"
 import AdminQueue from "./Components/Admin/Queue"
 import Queue from "./Components/Users/Queue"
 import Landing from "./Components/Landing";
+import Settings from "./Components/Pages/Settings";
 
 
 
@@ -126,7 +127,8 @@ const App: React.FC = () => {
 
 
   return (
-    <Router>
+    <div  className="h-[100%] bg-orange-100">
+       <Router>
       <Routes>
         {/* this is the route the customer will see */}
         <Route path="/queue" element={<Queue />} />
@@ -144,7 +146,7 @@ const App: React.FC = () => {
           <Route
           path="/admin-queue"
             element={
-              <div className="flex bg-orange-200 h-[754px]">
+              <div className="flex">
                 <Sidebar />
                 <AdminQueue 
                   tickets={queue}
@@ -164,7 +166,7 @@ const App: React.FC = () => {
           <Route
             path="/sign-in-as-admin"
             element={
-              <div className="flex bg-orange-100 h-[754px]">
+              <div className="flex">
                 <Sidebar />
                 <SigninAsAdmin />
               </div>
@@ -174,19 +176,28 @@ const App: React.FC = () => {
           <Route
           path="/Company-name"
             element={
-              <div className="flex bg-orange-100 h-[754px]">
+              <div className="flex">
                 <Sidebar />
                 <CompanyName />
               </div>
             }
           />
 
-          <Route
+          {/* <Route
             path="/add-staff"
             element={
-              <div className="flex bg-orange-100 h-[754px]">
+              <div className="flex">
                 <Sidebar />
                 <AddStaff />
+              </div>
+            }
+          /> */}
+          <Route
+            path="/settings"
+            element={
+              <div className="flex">
+                <Sidebar />
+                <Settings/>
               </div>
             }
           />
@@ -194,6 +205,8 @@ const App: React.FC = () => {
         {/* </Route> */}
       </Routes>
     </Router>
+    </div>
+   
   );
 };
 
