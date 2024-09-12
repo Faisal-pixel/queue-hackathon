@@ -1,9 +1,7 @@
-import React, { useState, useEffect} from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SigninAsAdmin from './Components/Sign_In/SigninForAdmin'
 import Sidebar from "./Components/Sidebar"
 import CompanyName from './Components/Sign_In/CompanyName'
-import AddStaff from "./Components/Admin/AddStaff"
 import AdminQueue from "./Components/Admin/Queue"
 import Queue from "./Components/Users/Queue"
 import Landing from "./Components/Landing";
@@ -29,94 +27,94 @@ import Settings from "./Components/Pages/Settings";
 // };
 
 const App: React.FC = () => {
-  const [queue, setQueue] = useState<Ticket[]>(() => {
-    const storedTickets = localStorage.getItem("tickets");
-    return storedTickets ? JSON.parse(storedTickets) : [];
-  });
+  // const [queue, setQueue] = useState<TCustomer[]>(() => {
+  //   const storedTickets = localStorage.getItem("tickets");
+  //   return storedTickets ? JSON.parse(storedTickets) : [];
+  // });
 
 
-  const handleIdChange = (oldId: string | number, newId: string | number) => {
-    setQueue((prevTickets) =>
-      prevTickets.map((ticket) =>
-        ticket.id === oldId ? { ...ticket, id: newId } : ticket
-      )
-    );
-  };
+  // const handleIdChange = (oldId: string | number, newId: string | number) => {
+  //   setQueue((prevTickets) =>
+  //     prevTickets.map((ticket) =>
+  //       ticket.ticketNo === oldId ? { ...ticket, id: newId } : ticket
+  //     )
+  //   );
+  // };
 
-  const handleNameChange = (id: string | number, newName: string) => {
-    setQueue((prevTickets) =>
-      prevTickets.map((ticket) =>
-        ticket.id === id ? { ...ticket, name: newName } : ticket
-      )
-    );
-  };
+  // const handleNameChange = (id: string | number, newName: string) => {
+  //   setQueue((prevTickets) =>
+  //     prevTickets.map((ticket) =>
+  //       ticket.ticketNo === id ? { ...ticket, name: newName } : ticket
+  //     )
+  //   );
+  // };
 
-  const handleEmailChange = (id: number, newEmail: string) => {
-    setQueue((prevTickets) =>
-      prevTickets.map((ticket) =>
-        ticket.id === id ? { ...ticket, email: newEmail } : ticket
-      )
-    );
-  };
+  // const handleEmailChange = (id: number, newEmail: string) => {
+  //   setQueue((prevTickets) =>
+  //     prevTickets.map((ticket) =>
+  //       ticket.ticketNo === id ? { ...ticket, email: newEmail } : ticket
+  //     )
+  //   );
+  // };
 
-  const handlePhoneChange = (id: number, newPhone: string) => {
-    setQueue((prevTickets) =>
-      prevTickets.map((ticket) =>
-        ticket.id === id ? { ...ticket, phone: newPhone } : ticket
-      )
-    );
-  };
+  // const handlePhoneChange = (id: number, newPhone: string) => {
+  //   setQueue((prevTickets) =>
+  //     prevTickets.map((ticket) =>
+  //       ticket.ticketNo === id ? { ...ticket, phone: newPhone } : ticket
+  //     )
+  //   );
+  // };
 
-  const handleStatusChange = (id: number, newStatus: string) => {
-    setQueue((prevTickets) =>
-      prevTickets.map((ticket) =>
-        ticket.id === id ? { ...ticket, status: newStatus } : ticket
-      )
-    );
-  };
+  // const handleStatusChange = (id: number, newStatus: string) => {
+  //   setQueue((prevTickets) =>
+  //     prevTickets.map((ticket) =>
+  //       ticket.ticketNo === id ? { ...ticket, status: newStatus } : ticket
+  //     )
+  //   );
+  // };
 
-  const handleReadyChange = (id: number, newReady: number) => {
-    setQueue((prevTickets) =>
-      prevTickets.map((ticket) =>
-        ticket.id === id ? { ...ticket, ready: newReady } : ticket
-      )
-    );
-  };
+  // const handleReadyChange = (id: number, newReady: number) => {
+  //   setQueue((prevTickets) =>
+  //     prevTickets.map((ticket) =>
+  //       ticket.ticketNo === id ? { ...ticket, ready: newReady } : ticket
+  //     )
+  //   );
+  // };
 
-  const handleAddNewTicket = (newTicket: Ticket) => {
-    setQueue((prevTickets) => [...prevTickets, newTicket]);
-    const setQueueToDB = async () => {
-      try {
-        const isEmployee = await checkIfCurrentUserIsAnEmployee(userAuth);
+  // const handleAddNewTicket = (newTicket: TCustomer) => {
+  //   setQueue((prevTickets) => [...prevTickets, newTicket]);
+  //   const setQueueToDB = async () => {
+  //     try {
+  //       const isEmployee = await checkIfCurrentUserIsAnEmployee(userAuth);
 
-        if (isEmployee) {
-          await addQueueToSME(queue, isEmployee);
-        } else {
-          await addQueueToSME(queue, userAuth.email);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  //       if (isEmployee) {
+  //         await addQueueToSME(queue, isEmployee);
+  //       } else {
+  //         await addQueueToSME(queue, userAuth.email);
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
 
-    setQueueToDB();
-  };
+  //   setQueueToDB();
+  // };
 
-  const handleDeleteTicket = (id: number) => {
-    setQueue((prevTickets) => {
-      const filteredTickets = prevTickets.filter((ticket) => ticket.id !== id);
-      // Reorder IDs
-      return filteredTickets.map((ticket, index) => ({
-        ...ticket,
-        id: String(index + 1).padStart(3, "0"), // Assign new ID
-      }));
-    });
-  };
+  // const handleDeleteTicket = (id: number) => {
+  //   setQueue((prevTickets) => {
+  //     const filteredTickets = prevTickets.filter((ticket) => ticket.ticketNo !== id);
+  //     // Reorder IDs
+  //     return filteredTickets.map((ticket, index) => ({
+  //       ...ticket,
+  //       id: String(index + 1).padStart(3, "0"), // Assign new ID
+  //     }));
+  //   });
+  // };
 
-  // Save tickets to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem("tickets", JSON.stringify(queue));
-  }, [queue]);
+  // // Save tickets to localStorage whenever they change
+  // useEffect(() => {
+  //   localStorage.setItem("tickets", JSON.stringify(queue));
+  // }, [queue]);
 
   // If there is no user Auth, return the sign in page
   // If there is user Auth, then allow to access the admin-staff page
@@ -149,15 +147,7 @@ const App: React.FC = () => {
               <div className="flex">
                 <Sidebar />
                 <AdminQueue 
-                  tickets={queue}
-                  onIdChange={handleIdChange}
-                  onNameChange={handleNameChange}
-                  onEmailChange={handleEmailChange}
-                  onPhoneChange={handlePhoneChange}
-                  onStatusChange={handleStatusChange}
-                  onReadyChange={handleReadyChange}
-                  onAddNewTicket={handleAddNewTicket}
-                  onDeleteTicket={handleDeleteTicket}
+        
                 />
               </div>
             }

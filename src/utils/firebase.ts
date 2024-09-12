@@ -178,7 +178,7 @@ const updatedQueue = [...existingQueue, ...filteredQueue];
 }
 
 // 6. DELETE CUSTOMER FROM QUEUE
-export const deleteCustomerFromQueue = async (smeEmail: string, ticketNo: string) => {
+export const deleteCustomerFromQueue = async (smeEmail: string, ticketNo: number) => {
   const smeDocRef = doc(db, "sme", smeEmail);
   const smeSnapshot = await getDoc(smeDocRef);
 
@@ -295,7 +295,7 @@ export const checkIfAdminExists = async (userAuth: User) => {
 }
 
 // Update status of a customer in the queue
-export const updateCustomerStatus = async (smeEmail: string, ticketNo: string, status: string) => {
+export const updateCustomerStatus = async (smeEmail: string, ticketNo: number, status: string) => {
   const smeDocRef = doc(db, "sme", smeEmail);
   const smeSnapshot = await getDoc(smeDocRef);
 

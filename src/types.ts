@@ -7,12 +7,12 @@ export type Tsme = {
 }
 
 export type TCustomer = {
-    ticketNo: string;
+    ticketNo: number;
     customerName: string;
     customerPhone: string;
     customerEmail: string;
     status: string;
-    timeFrame: string;
+    ready: number;
     notified: boolean;
 }
 
