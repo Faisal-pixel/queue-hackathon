@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SigninAsAdmin from './Components/Sign_In/SigninForAdmin'
 import Sidebar from "./Components/Sidebar"
 import CompanyName from './Components/Sign_In/CompanyName'
-import AddStaff from "./Components/Admin/AddStaff"
 import AdminQueue from "./Components/Admin/Queue"
 import Queue from "./Components/Users/Queue"
 import Landing from "./Components/Landing";
@@ -183,15 +182,6 @@ const App: React.FC = () => {
             }
           />
 
-          {/* <Route
-            path="/add-staff"
-            element={
-              <div className="flex">
-                <Sidebar />
-                <AddStaff />
-              </div>
-            }
-          /> */}
           <Route
             path="/settings"
             element={

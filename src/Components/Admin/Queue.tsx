@@ -44,20 +44,20 @@ const TicketTable: React.FC<TicketTableProps> = ({
     const [isAddingTicket, setIsAddingTicket] = useState(false);
 
     // Decrement the ready time every minute
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const updatedTickets = tickets.map((ticket) => {
-                if (ticket.ready as number > 0) {
-                    return { ...ticket, ready: ticket.ready as number - 1 };
-                }
-                return ticket;
-            });
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         const updatedTickets = tickets.map((ticket) => {
+    //             if (ticket.ready as number > 0) {
+    //                 return { ...ticket, ready: ticket.ready as number - 1 };
+    //             }
+    //             return ticket;
+    //         });
 
-            updatedTickets.forEach((ticket) => onReadyChange(ticket.id as number, ticket.ready as number));
-        }, 60000); // 1 minute
+    //         updatedTickets.forEach((ticket) => onReadyChange(ticket.id as number, ticket.ready as number));
+    //     }, 60000); // 1 minute
 
-        return () => clearInterval(interval);
-    }, [tickets, onReadyChange]);
+    //     return () => clearInterval(interval);
+    // }, [tickets, onReadyChange]);
 
     const handleNewTicketChange = (field: keyof Omit<Ticket, 'id'>, value: string | number) => {
         setNewTicket((prev) => ({ ...prev, [field]: value }));
