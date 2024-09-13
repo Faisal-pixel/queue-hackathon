@@ -1,6 +1,8 @@
 import { User } from 'firebase/auth';
 import { createContext, ReactNode, useEffect, useState } from 'react';
-import { TEmployee, Tsme } from '../types';
+import { TCustomer, TEmployee, Tsme } from '../types';
+import { getSmeDocRef } from '../utils/firebase';
+import { onSnapshot } from 'firebase/firestore';
 
 type TGlobalContext = {
     currentUser: User | null;
@@ -26,12 +28,29 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     const [currentEmployee, setCurrentEmployee] = useState<TEmployee | null>(null);
 
     useEffect(() => {
+        if(!currentSME) return;
         // get the sme document from the firebase
         // Then we set the currentSme state to the sme document
-        
-        const unsubscribe = () => {
-            // unsubscribe from the sme document
-        }
+        const unsubscribe = onSnapshot(getSmeDocRef(currentSME.smeName), (doc) => {
+            if(doc.exists()) {
+                const data = doc.data();
+                setCurrentSME({
+                    
+                    ...data as Tsme,
+                    queue: data.queue.map((customer: TCustomer) => ({
+                        ...customer,
+                        ready: customer.ready.toDate().getTime(),
+                    })),
+                    employees: data.employees.map((employee: TEmployee) => ({
+                        ...employee,
+                        dateAdded: employee.dateAdded ? employee.dateAdded.toDate().getTime() : null,
+                    })),
+
+                });
+            }
+
+            return () => unsubscribe();
+        });
     }, [currentSME])
 
     return (
