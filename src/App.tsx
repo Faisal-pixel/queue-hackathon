@@ -126,7 +126,7 @@ const App: React.FC = () => {
 
 
   return (
-    <div  className="min-h-screen bg-orange-100">
+    <div  className="min-h-screen bg-orange-100 ">
 
       <Routes>
         {/* this is the route the customer will see */}

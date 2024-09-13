@@ -8,7 +8,7 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="relative h-screen flex">
+    <div className="relative h-screen flex w-[35%]">
       <div
         className={`fixed top-0 left-0 h-screen w-64 bg-white shadow-xl transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
