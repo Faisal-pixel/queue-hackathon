@@ -59,8 +59,8 @@ function SigninAsAdmin() {
 
 
     return (
-        <div className="flex items-center justify-center  w-[75%]">
-            <div className='space-x-2'>
+        <div className="flex items-center justify-center w-screen">
+            <div className=''>
                 <button
                     className="login-button bg-orange-400 text-white p-4 rounded-md hover:bg-blue-400 md:p-4"
                     // onClick={handleStaffLogin}
