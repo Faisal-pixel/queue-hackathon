@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export type Tsme = {
     smeName: string;
     isFirstTime: boolean;
@@ -12,7 +14,7 @@ export type TCustomer = {
     customerPhone: string;
     customerEmail: string;
     status: string;
-    ready: number;
+    ready: Timestamp;
     notified: boolean;
 }
 
@@ -21,6 +23,6 @@ export type TEmployee = {
     lastName: string;
     email: string;
     role: string;
-    dateAdded: string;
+    dateAdded: Timestamp;
     smeMail: string;
 }

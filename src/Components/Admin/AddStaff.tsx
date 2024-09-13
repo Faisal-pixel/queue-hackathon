@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { TSMEEmployee } from "../types";
+import { TEmployee } from "../../types";
 
 const StaffManager: React.FC = () => {
-    const [staffList, setStaffList] = useState<TSMEEmployee[]>([]);
+    const [staffList, setStaffList] = useState<TEmployee[]>([]);
     const [showAddStaff, setShowAddStaff] = useState(false);
     const [newStaffName, setNewStaffName] = useState("");
     const [newStaffEmail, setNewStaffEmail] = useState("");

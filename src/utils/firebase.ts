@@ -260,6 +260,9 @@ export const getSmeDocument = async (smeEmail: string) => {
   }
 }
 
+// GET SME DOC REF
+export const getSmeDocRef = (smeEmail: string) => doc(db, "sme", smeEmail);
+
 // A function that checks if the sme exists in the databse,
 
 export const checkIfSmeExists = async (userAuth: User) => {

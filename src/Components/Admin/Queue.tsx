@@ -1,5 +1,6 @@
-import React, { useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TCustomer } from "../../types";
+import { GlobalContext } from "../../context/global-context";
 
 // type TCustomer = {
 //   id: number;
@@ -14,26 +15,25 @@ import { TCustomer } from "../../types";
 // };
 
 const TicketTable = () => {
-//   const [newCustomer, setNewCustomer] = useState<Omit<TCustomer, "ticketNo">>({
-//     customerName: "",
-//     customerEmail: "",
-//     customerPhone: "",
-//     status: "in process",
-//     ready: 0,
-//     notified: false,
-//   });
-  const [tickets, setTickets] = useState<TCustomer[]>([
-    {
-        ticketNo: 1,
-        customerName: "John Doe",
-        customerEmail: "something@gmial.com",
-        customerPhone: "1234567890",
-        status: "in process",
-        ready: 0,
-        notified: false,
-    }
-  ]);
-//   const [isAddingTicket, setIsAddingTicket] = useState(false);
+  //   const [newCustomer, setNewCustomer] = useState<Omit<TCustomer, "ticketNo">>({
+  //     customerName: "",
+  //     customerEmail: "",
+  //     customerPhone: "",
+  //     status: "in process",
+  //     ready: 0,
+  //     notified: false,
+  //   });
+
+  const { currentSME } = useContext(GlobalContext);
+  const [tickets, setTickets] = useState<TCustomer[]>([]);
+
+    // Load tickets from SME context
+    useEffect(() => {
+        if (currentSME) {
+            setTickets(currentSME.queue);
+        }
+    }, [currentSME]);
+  //   const [isAddingTicket, setIsAddingTicket] = useState(false);
 
   // Decrement the ready time every minute
   // useEffect(() => {
@@ -72,7 +72,6 @@ const TicketTable = () => {
 
   const handleDeleteTicket = (ticketNoToDel: number) => {
     setTickets((prevTickets) => {
-        
       const filteredTickets = prevTickets.filter(
         (ticket) => ticket.ticketNo !== ticketNoToDel
       );
@@ -86,8 +85,8 @@ const TicketTable = () => {
 
   const formatId = (id: number) => id.toString().padStart(3, "0");
 
-//   const isValidEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
-//   const isValidPhone = (phone: string) => /^\d+$/.test(phone);
+  //   const isValidEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
+  //   const isValidPhone = (phone: string) => /^\d+$/.test(phone);
 
   return (
     <div className="p-4">
@@ -229,11 +228,13 @@ const TicketTable = () => {
                                         className="border p-1 w-full text-center"
                                     /> */}
 
-                  <p>{ticket.ready}</p>
+                  <p>{ticket.ready.toDate().toLocaleString()}</p>
                 </td>
                 <td className="border px-4 py-2 text-center">
                   <button
-                    onClick={() => handleDeleteTicket(ticket.ticketNo as number)}
+                    onClick={() =>
+                      handleDeleteTicket(ticket.ticketNo as number)
+                    }
                     className="bg-red-500 text-white px-2 py-1"
                   >
                     Delete
