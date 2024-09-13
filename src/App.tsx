@@ -125,7 +125,7 @@ const App: React.FC = () => {
 
 
   return (
-    <div  className="h-[100%] bg-orange-100">
+    <div  className="min-h-screen bg-orange-100">
        <Router>
       <Routes>
         {/* this is the route the customer will see */}
@@ -144,7 +144,7 @@ const App: React.FC = () => {
           <Route
           path="/admin-queue"
             element={
-              <div className="flex">
+              <div className="flex min-h-screen">
                 <Sidebar />
                 <AdminQueue 
         
@@ -156,7 +156,7 @@ const App: React.FC = () => {
           <Route
             path="/sign-in-as-admin"
             element={
-              <div className="flex">
+              <div className="flex min-h-screen">
                 <Sidebar />
                 <SigninAsAdmin />
               </div>
@@ -166,7 +166,7 @@ const App: React.FC = () => {
           <Route
           path="/Company-name"
             element={
-              <div className="flex">
+              <div className="flex min-h-screen">
                 <Sidebar />
                 <CompanyName />
               </div>
@@ -176,7 +176,7 @@ const App: React.FC = () => {
           <Route
             path="/settings"
             element={
-              <div className="flex">
+              <div className="flex min-h-screen">
                 <Sidebar />
                 <Settings/>
               </div>

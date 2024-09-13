@@ -6,7 +6,7 @@ import { NavLink, NavLinkRenderProps } from "react-router-dom";
 export default function Sidebar() {
 
   return (
-    <div className="flex flex-col h-screen w-[25%] bg-white shadow-xl">
+    <div className="flex flex-col bg-white shadow-xl h-screen max-w-lg">
 
       {/* {HEADER} */}
       <div className="flex items-center justify-between p-4 bg-orange-400">
@@ -40,7 +40,7 @@ export default function Sidebar() {
       <div className="p-4 border-t">
         <ul className="space-y-4">
           <li>
-            <a className="space-x-2 text-gray-600 hover:text-orange-500 gap-3">
+            <a className="lg:space-x-2 text-gray-600 hover:text-orange-500 gap-3">
               <i className="fas fa-bell"></i>
               <span>Notifications</span>
             </a>
@@ -53,7 +53,7 @@ export default function Sidebar() {
           }
           >
           <li>
-            <a className="space-x-2 text-gray-600 hover:text-orange-500">
+            <a className="lg:space-x-2 text-gray-600 hover:text-orange-500">
               <i className="fas fa-cog"></i>
               <span>Settings</span>
             </a>
@@ -61,7 +61,7 @@ export default function Sidebar() {
           </NavLink>
           <li>
             <a className=" text-gray-600 hover:text-orange-500">
-              <span>Feedback/Complaints</span>
+              <span className="break-words">Feedback</span>
             </a>
           </li>
         </ul>
