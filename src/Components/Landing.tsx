@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Team from './Team';
 import Data from './TeamData';
+import { Link} from 'react-router-dom';
 
 const Landing = () => {
     const [showScrollButton, setShowScrollButton] = useState(false);
@@ -59,9 +60,11 @@ const Landing = () => {
                         <p className="text-gray-600">
                             Experience the freedom of no waiting, ever again.
                         </p>
-                        <button className="bg-orange-500 text-white px-6 py-3 rounded-full shadow-lg hover:bg-orange-400 transition duration-300">
-                            Get Started
-                        </button>
+                        <Link to="/signin">
+            <button className="bg-orange-500 text-white px-6 py-3 rounded-full shadow-lg hover:bg-orange-400 transition duration-300">
+    Get Started
+  </button>
+</Link>
                     </div>
 
                     {/* Right content (image and details) */}
