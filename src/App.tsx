@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import SigninAsAdmin from './Components/Sign_In/SigninForAdmin'
 import Sidebar from "./Components/Sidebar"
 import CompanyName from './Components/Sign_In/CompanyName'
@@ -6,6 +6,7 @@ import AdminQueue from "./Components/Admin/Queue"
 import Queue from "./Components/Users/Queue"
 import Landing from "./Components/Landing";
 import Settings from "./Components/Pages/Settings";
+import { SignIn } from "./Components/Pages/SignIn";
 
 
 
@@ -126,11 +127,12 @@ const App: React.FC = () => {
 
   return (
     <div  className="h-[100%] bg-orange-100">
-       <Router>
+       
       <Routes>
         {/* this is the route the customer will see */}
         <Route path="/queue" element={<Queue />} />
         <Route path="/" element={<Landing />} />
+        <Route path="/signin" element={<SignIn />} />
 
         {/* <Route path="/signin" element={<PublicRoute />}>
           <Route index element={<SignIn />} />
@@ -185,7 +187,7 @@ const App: React.FC = () => {
 
         {/* </Route> */}
       </Routes>
-    </Router>
+    
     </div>
    
   );

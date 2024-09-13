@@ -26,3 +26,5 @@ export type TEmployee = {
     dateAdded?: Timestamp;
     smeMail?: string;
 }
+
+export type TpageState = "insertCompanyName" | "dashboard" | "login";

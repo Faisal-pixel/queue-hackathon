@@ -87,6 +87,9 @@ const db = getFirestore();
       console.log("An unknown error occurred.");
       } 
       }
+    } else {
+      console.log("SME already exists");
+      return false;
     }
   }
 
@@ -254,7 +257,7 @@ export const getSmeDocument = async (smeEmail: string) => {
   const smeDocSnapshot = await getDoc(smeDocRef);
 
   if(smeDocSnapshot.exists()){
-    return smeDocSnapshot.data();
+    return smeDocSnapshot.data() as Tsme;
   } else {
     return false;
   }

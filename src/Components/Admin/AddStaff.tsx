@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { TEmployee } from "../../types";
+import { GlobalContext } from "../../context/global-context";
 
 const StaffManager: React.FC = () => {
     const [staffList, setStaffList] = useState<TEmployee[]>([]);
@@ -13,6 +14,8 @@ const StaffManager: React.FC = () => {
     const [editingStaffName, setEditingStaffName] = useState("");
     const [editingStaffEmail, setEditingStaffEmail] = useState("");
 
+    const {currentSME} = useContext(GlobalContext);
+
     // Load staff data from localStorage when the component mounts
     useEffect(() => {
         const storedStaffList = localStorage.getItem("staffList");
@@ -21,12 +24,20 @@ const StaffManager: React.FC = () => {
         }
     }, []);
 
+    useEffect(() => {
+        if(currentSME) {
+            setStaffList(currentSME.employees || []);
+        }
+    }, [currentSME]);
+
     // Save staff data to localStorage whenever the staffList state changes
     useEffect(() => {
         if (staffList.length > 0) {
             localStorage.setItem("staffList", JSON.stringify(staffList));
         }
     }, [staffList]);
+
+    // On load of the component, generate the employees in an sme
 
     // const generateNextId = (): string => {
     //     if (staffList.length === 0) return "001";

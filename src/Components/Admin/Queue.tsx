@@ -30,7 +30,7 @@ const TicketTable = () => {
     // Load tickets from SME context
     useEffect(() => {
         if (currentSME) {
-            setTickets(currentSME.queue);
+            setTickets(currentSME.queue || []);
         }
     }, [currentSME]);
   //   const [isAddingTicket, setIsAddingTicket] = useState(false);
