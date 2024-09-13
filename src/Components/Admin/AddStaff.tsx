@@ -77,8 +77,8 @@ const StaffManager: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col items-center min-h-screen w-full p-8 bg-gray-50">
-            <div className="w-full max-w-4xl bg-white shadow-md rounded-lg p-6">
+        <div className="flex flex-col items-center w-[75%] p-8 bg-gray-50">
+            <div className="w-full  bg-white shadow-md rounded-lg p-6">
                 <h1 className="text-2xl font-semibold text-gray-800 text-center mb-6">Staff Management</h1>
 
                 {showAddStaff ? (

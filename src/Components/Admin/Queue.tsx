@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TCustomer } from "../../types";
 import { GlobalContext } from "../../context/global-context";
 
