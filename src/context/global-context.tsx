@@ -43,7 +43,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
                     })),
                     employees: data.employees.map((employee: TEmployee) => ({
                         ...employee,
-                        dateAdded: employee.dateAdded.toDate().getTime(),
+                        dateAdded: employee.dateAdded ? employee.dateAdded.toDate().getTime() : null,
                     })),
 
                 });

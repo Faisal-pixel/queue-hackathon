@@ -4,7 +4,10 @@ import { TEmployee } from "../../types";
 const StaffManager: React.FC = () => {
     const [staffList, setStaffList] = useState<TEmployee[]>([]);
     const [showAddStaff, setShowAddStaff] = useState(false);
-    const [newStaffName, setNewStaffName] = useState("");
+    const [newStaffName, setNewStaffName] = useState({
+        firstName: "",
+        lastName: "",
+    });
     const [newStaffEmail, setNewStaffEmail] = useState("");
     const [editingStaffId, setEditingStaffId] = useState<string | null>(null);
     const [editingStaffName, setEditingStaffName] = useState("");
@@ -25,48 +28,48 @@ const StaffManager: React.FC = () => {
         }
     }, [staffList]);
 
-    const generateNextId = (): string => {
-        if (staffList.length === 0) return "001";
-        const ids = staffList.map((staff) => parseInt(staff.id, 10));
-        const nextId = Math.max(...ids) + 1;
-        return nextId.toString().padStart(3, "0");
-    };
+    // const generateNextId = (): string => {
+    //     if (staffList.length === 0) return "001";
+    //     const ids = staffList.map((staff) => parseInt(staff.id, 10));
+    //     const nextId = Math.max(...ids) + 1;
+    //     return nextId.toString().padStart(3, "0");
+    // };
 
     const handleAddStaff = () => {
-        const newStaff: TSMEEmployee = {
-            id: generateNextId(),
-            name: newStaffName,
+        // Remember to set the employee email
+        const newStaff: TEmployee = {
+            firstName: newStaffName.firstName,
+            lastName: newStaffName.lastName,
             email: newStaffEmail,
             role: "admin", // Default role
         };
         setStaffList([...staffList, newStaff]);
-        setNewStaffName("");
+        setNewStaffName({ firstName: "", lastName: "" });
         setNewStaffEmail("");
         setShowAddStaff(false);
     };
 
     const handleDeleteStaff = (id: string) => {
         const updatedList = staffList
-            .filter((staff) => staff.id !== id)
-            .map((staff, index) => ({
+            .filter((staff) => staff.email !== id)
+            .map((staff) => ({
                 ...staff,
-                id: (index + 1).toString().padStart(3, "0"),
             }));
         setStaffList(updatedList);
     };
 
     const handleEditStaff = (id: string) => {
-        const staffToEdit = staffList.find((staff) => staff.id === id);
+        const staffToEdit = staffList.find((staff) => staff.email === id);
         if (staffToEdit) {
             setEditingStaffId(id);
-            setEditingStaffName(staffToEdit.name);
+            setEditingStaffName(staffToEdit.firstName + staffToEdit.lastName);
             setEditingStaffEmail(staffToEdit.email);
         }
     };
 
     const handleSaveEdit = () => {
         const updatedList = staffList.map((staff) =>
-            staff.id === editingStaffId
+            staff.email === editingStaffId
                 ? { ...staff, name: editingStaffName, email: editingStaffEmail }
                 : staff
         );
@@ -85,9 +88,16 @@ const StaffManager: React.FC = () => {
                     <div className="grid grid-cols-3 gap-4 mb-4">
                         <input
                             type="text"
-                            placeholder="Enter name"
-                            value={newStaffName}
-                            onChange={(e) => setNewStaffName(e.target.value)}
+                            placeholder="First name"
+                            value={newStaffName.firstName}
+                            onChange={(e) => setNewStaffName({ ...newStaffName, firstName: e.target.value })}
+                            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-300"
+                        />
+                        <input
+                            type="text"
+                            placeholder="Last name"
+                            value={newStaffName.lastName}
+                            onChange={(e) => setNewStaffName({ ...newStaffName, lastName: e.target.value })}
                             className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-300"
                         />
                         <input
@@ -125,7 +135,7 @@ const StaffManager: React.FC = () => {
                     <table className="w-full bg-white border border-gray-300 rounded-lg">
                         <thead>
                             <tr className="bg-gray-100">
-                                <th className="text-center p-2 font-semibold text-gray-700">ID</th>
+                                {/* <th className="text-center p-2 font-semibold text-gray-700">ID</th> */}
                                 <th className="text-left p-2 font-semibold text-gray-700">Name</th>
                                 <th className="text-left p-2 font-semibold text-gray-700">Email</th>
                                 <th className="text-center p-2 font-semibold text-gray-700">Actions</th>
@@ -133,19 +143,18 @@ const StaffManager: React.FC = () => {
                         </thead>
                         <tbody>
                             {staffList.map((staff) => (
-                                <tr key={staff.id} className="border-t">
-                                    <td className="text-center p-2">{staff.id}</td>
-                                    <td className="text-left p-2">{staff.name}</td>
+                                <tr key={staff.email} className="border-t">
+                                    <td className="text-left p-2">{staff.firstName + staff.lastName}</td>
                                     <td className="text-left p-2">{staff.email}</td>
                                     <td className="text-center p-2">
                                         <button
-                                            onClick={() => handleEditStaff(staff.id)}
+                                            onClick={() => handleEditStaff(staff.email)}
                                             className="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500 focus:outline-none"
                                         >
                                             Edit
                                         </button>
                                         <button
-                                            onClick={() => handleDeleteStaff(staff.id)}
+                                            onClick={() => handleDeleteStaff(staff.email)}
                                             className="px-3 py-1 ml-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none"
                                         >
                                             Delete

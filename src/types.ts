@@ -23,6 +23,6 @@ export type TEmployee = {
     lastName: string;
     email: string;
     role: string;
-    dateAdded: Timestamp;
-    smeMail: string;
+    dateAdded?: Timestamp;
+    smeMail?: string;
 }
