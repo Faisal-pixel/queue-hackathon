@@ -91,12 +91,12 @@ const StaffManager: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col items-center w-[75%] p-8 bg-gray-50">
-            <div className="w-full  bg-white shadow-md rounded-lg p-6">
-                <h1 className="text-2xl font-semibold text-gray-800 text-center mb-6">Staff Management</h1>
+        <div className="overflow-auto">
+            <div className=" grid gap-10">
+                <h1 className="text-2xl font-semibold text-gray-800 text-center">Staff Management</h1>
 
                 {showAddStaff ? (
-                    <div className="grid grid-cols-3 gap-4 mb-4">
+                    <div className="grid md:grid-cols-3 md:gap-4 grid-cols-2 gap-2">
                         <input
                             type="text"
                             placeholder="First name"
@@ -118,7 +118,7 @@ const StaffManager: React.FC = () => {
                             onChange={(e) => setNewStaffEmail(e.target.value)}
                             className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-300"
                         />
-                        <div className="flex space-x-2">
+                        <div className="flex md:translate-y-2 gap-2">
                             <button
                                 onClick={handleAddStaff}
                                 className="px-4 py-2 bg-orange-400 text-white rounded hover:bg-orange-300 focus:outline-none"
@@ -143,44 +143,46 @@ const StaffManager: React.FC = () => {
                 )}
 
                 {staffList.length > 0 ? (
-                    <table className="w-full bg-white border border-gray-300 rounded-lg">
-                        <thead>
+                    <table className=" bg-white border border-gray-300 rounded-lg  min-w-fit">
+                        <thead className="">
                             <tr className="bg-gray-100">
-                                {/* <th className="text-center p-2 font-semibold text-gray-700">ID</th> */}
-                                <th className="text-left p-2 font-semibold text-gray-700">Name</th>
-                                <th className="text-left p-2 font-semibold text-gray-700">Email</th>
-                                <th className="text-center p-2 font-semibold text-gray-700">Actions</th>
+                                <th className="p-2 font-semibold text-gray-700">Name</th>
+                                <th className="p-2 font-semibold text-gray-700">Email</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {staffList.map((staff) => (
-                                <tr key={staff.email} className="border-t">
-                                    <td className="text-left p-2">{staff.firstName + staff.lastName}</td>
-                                    <td className="text-left p-2">{staff.email}</td>
-                                    <td className="text-center p-2">
-                                        <button
-                                            onClick={() => handleEditStaff(staff.email)}
-                                            className="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500 focus:outline-none"
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            onClick={() => handleDeleteStaff(staff.email)}
-                                            className="px-3 py-1 ml-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none"
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
+                                {staffList.map((staff) => (
+                <tr key={staff.email} className="border-t">
+                    <td className="p-2 max-w-20 break-words md:max-w-none md:whitespace-nowrap
+                    ">{staff.firstName + staff.lastName}</td>
+                    <td className="p-2 max-w-24 break-words md:max-w-none md:whitespace-nowrap">{staff.email}</td>
+                    <td className="p-2">
+                        <div className="flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:space-x-2 justify-center">
+                            <button
+                                onClick={() => handleEditStaff(staff.email)}
+                                className="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500 focus:outline-none"
+                            >
+                                Edit
+                            </button>
+                            <button
+                                onClick={() => handleDeleteStaff(staff.email)}
+                                className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            ))}
+</tbody>
+
                     </table>
                 ) : (
                     <p className="text-center text-gray-600 text-2xl">No staff yet.</p>
                 )}
 
                 {editingStaffId && (
-                    <div className="mt-6 grid grid-cols-3 gap-4">
+                    <div className="mt-6 grid grid-cols-2 grid-rows-1 gap-4 md:grid-cols-3">
                         <input
                             type="text"
                             placeholder="Edit name"

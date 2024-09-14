@@ -126,7 +126,7 @@ const App: React.FC = () => {
 
 
   return (
-    <div  className="min-h-screen bg-orange-100 ">
+    <div  className="min-h-screen bg-orange-100">
 
       <Routes>
         {/* this is the route the customer will see */}
@@ -146,7 +146,7 @@ const App: React.FC = () => {
           <Route
           path="/admin-queue"
             element={
-              <div className="flex min-h-screen">
+              <div className="min-h-screen justify-center flex">
                 <Sidebar />
                 <AdminQueue 
         
@@ -178,7 +178,7 @@ const App: React.FC = () => {
           <Route
             path="/settings"
             element={
-              <div className="flex min-h-screen">
+              <div className="md:flex min-h-screen justify-center">
                 <Sidebar />
                 <Settings/>
               </div>

@@ -8,7 +8,7 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="relative h-screen flex w-[35%]">
+    <div className="flex">
       <div
         className={`fixed top-0 left-0 h-screen w-64 bg-white shadow-xl transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
@@ -77,7 +77,7 @@ export default function Sidebar() {
       {/* Toggle Button always visible */}
       <button
         onClick={toggleSidebar}
-        className={`fixed top-4 ${isOpen ? 'left-64' : 'left-4'} text-white bg-orange-400 p-2 rounded-full focus:outline-none transition-all duration-300`}
+        className={`fixed top-4 ${isOpen ? 'left-64' : 'left-4'} text-white bg-orange-400 p-2 rounded-full focus:outline-none transition-all duration-300 lg:invisible`}
       >
         <i className={`fas ${isOpen ? 'fa-angle-left' : 'fa-angle-right'}`}></i>
       </button>
