@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import Team from './Team';
 import Data from './TeamData';
+import { useNavigate } from 'react-router-dom';
 
 const Landing = () => {
+    const navigate = useNavigate();
     const [showScrollButton, setShowScrollButton] = useState(false);
 
     // Toggle scroll button visibility
@@ -28,7 +30,7 @@ const Landing = () => {
     };
 
     const contribution = Array.isArray(Data)
-        ? Data.map((contribution: any, index: number) => (
+        ? Data.map((contribution, index: number) => (
             <Team key={index} {...contribution} />
         ))
         : null;
@@ -59,7 +61,7 @@ const Landing = () => {
                         <p className="text-gray-600">
                             Experience the freedom of no waiting, ever again.
                         </p>
-                        <button className="bg-orange-500 text-white px-6 py-3 rounded-full shadow-lg hover:bg-orange-400 transition duration-300">
+                        <button onClick={() => navigate("/signin")} className="bg-orange-500 text-white px-6 py-3 rounded-full shadow-lg hover:bg-orange-400 transition duration-300">
                             Get Started
                         </button>
                     </div>

@@ -1,9 +1,15 @@
 import { NavLink, NavLinkRenderProps } from "react-router-dom";
+import { signOutUser } from "../utils/firebase";
 
 // Define the type for the NavLink component props
 
 
 export default function Sidebar() {
+
+  const handleSignOut = () => { 
+      localStorage.removeItem("staffList");
+      signOutUser();
+    }
 
   return (
     <div className="flex flex-col bg-white shadow-xl h-screen max-w-lg">
@@ -69,7 +75,7 @@ export default function Sidebar() {
 
       {/* SignOut Button */}
       <div className="p-4">
-        <button className="w-full bg-orange-500 text-white p-2 rounded-lg">Sign Out</button>
+        <button className="w-full bg-orange-500 text-white p-2 rounded-lg" onClick={handleSignOut}>Sign Out</button>
       </div>
     </div>
   )

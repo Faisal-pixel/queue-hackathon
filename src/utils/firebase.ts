@@ -63,7 +63,7 @@ const db = getFirestore();
 
   // 2. CREATE SME DOCUMENT
 
-  export const createSMEDocumentFromAuth = async (userAuth: User, sme: Tsme) => {
+  export const createSMEDocumentFromAuth = async (userAuth: User, smeName: string, isFirstTime: boolean) => {
     // Create a new document in the SME collection
     if(!userAuth) return
     // We want to know whether the document exist in the databse. 
@@ -77,8 +77,8 @@ const db = getFirestore();
 
       try {
         await setDoc(smeDocRef, {
-          smeName: sme.smeName,
-          isFirstTime: sme.isFirstTime,
+          smeName: smeName,
+          isFirstTime: isFirstTime,
         })
       } catch(error: unknown) {
         if( error instanceof Error) {
@@ -334,4 +334,16 @@ export const updateCustomerStatus = async (smeEmail: string, ticketNo: number, s
 } else {
     return false;
 }
+}
+
+// GET EMPLOYEE COLECTION
+export const getEmployeeCollection = async (userAuth: User) => {
+  const employeeDocRef = doc(db, "employeeCol", userAuth.email as string);
+  const snapshot = await getDoc(employeeDocRef);
+
+  if(snapshot.exists()) {
+    return snapshot.data() as TEmployee;
+  }
+
+  return false
 }

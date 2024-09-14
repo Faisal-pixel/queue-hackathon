@@ -1,16 +1,13 @@
 import { Route, Routes } from "react-router-dom";
-import SigninAsAdmin from './Components/Sign_In/SigninForAdmin'
-import Sidebar from "./Components/Sidebar"
-import CompanyName from './Components/Sign_In/CompanyName'
-import AdminQueue from "./Components/Admin/Queue"
-import Queue from "./Components/Users/Queue"
+import Sidebar from "./Components/Sidebar";
+import AdminQueue from "./Components/Admin/Queue";
+import Queue from "./Components/Users/Queue";
 import Landing from "./Components/Landing";
 import Settings from "./Components/Pages/Settings";
 import { SignIn } from "./Components/Pages/SignIn";
-
-
-
-
+import ProtectedRoute from "./Components/ProtectedRoute";
+import PublicRoute from "./Components/PublicRoute";
+import NotAnEmployee from "./Components/Pages/NotAnEmployee";
 
 // import { Ticket } from "./types";
 // import {
@@ -32,7 +29,6 @@ const App: React.FC = () => {
   //   const storedTickets = localStorage.getItem("tickets");
   //   return storedTickets ? JSON.parse(storedTickets) : [];
   // });
-
 
   // const handleIdChange = (oldId: string | number, newId: string | number) => {
   //   setQueue((prevTickets) =>
@@ -124,38 +120,54 @@ const App: React.FC = () => {
   // If user Auth is an SME, then allow to access the dashboard
   // If not, show an error that the user doesnt exist as an sme
 
-
   return (
-    <div  className="min-h-screen bg-orange-100">
-
+    <div className="min-h-screen bg-orange-100">
       <Routes>
         {/* this is the route the customer will see */}
-        <Route path="/queue" element={<Queue />} />
-        <Route path="/" element={<Landing />} />
-        <Route path="/signin" element={<SignIn />} />
 
         {/* <Route path="/signin" element={<PublicRoute />}>
           <Route index element={<SignIn />} />
           <Route path="/signin/ticket-page" element={<Userface />} />
 
         </Route> */}
+        <Route path="signin" element={<SignIn />} />
+
+        <Route path="/" element={<PublicRoute />}>
+          
+          <Route path="queue" element={<Queue />} />
+          <Route index element={<Landing />} />
+        </Route>
 
         {/* this is the admin route */}
 
         {/* <Route element={<ProtectedRoute />}> */}
+        <Route path="/not-an-employee" element={<ProtectedRoute />}>
+        <Route index element={<NotAnEmployee />} />
+        </Route>
+
+        <Route path="/admin-queue" element={<ProtectedRoute />}>
           <Route
-          path="/admin-queue"
+            index
             element={
               <div className="flex min-h-screen">
                 <Sidebar />
-                <AdminQueue 
-        
-                />
+                <AdminQueue />
               </div>
             }
           />
 
           <Route
+            path="settings"
+            element={
+              <div className="flex min-h-screen">
+                <Sidebar />
+                <Settings />
+              </div>
+            }
+          />
+        </Route>
+
+        {/* <Route
             path="/sign-in-as-admin"
             element={
               <div className="flex min-h-screen">
@@ -163,9 +175,9 @@ const App: React.FC = () => {
                 <SigninAsAdmin />
               </div>
             }
-          /> 
+          />  */}
 
-          <Route
+        {/* <Route
           path="/Company-name"
             element={
               <div className="flex min-h-screen">
@@ -173,23 +185,11 @@ const App: React.FC = () => {
                 <CompanyName />
               </div>
             }
-          />
-
-          <Route
-            path="/settings"
-            element={
-              <div className="flex min-h-screen">
-                <Sidebar />
-                <Settings/>
-              </div>
-            }
-          />
+          /> */}
 
         {/* </Route> */}
       </Routes>
-    
     </div>
-   
   );
 };
 
