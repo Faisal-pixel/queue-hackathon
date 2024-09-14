@@ -1,4 +1,8 @@
-# React + TypeScript + Vite
+
+# QueueNot
+
+A queue project which is designed to eliminate physical queues and give you time to do whatever needs to be done. 
+Built with React and TypeScript.
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

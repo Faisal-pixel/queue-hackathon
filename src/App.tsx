@@ -149,7 +149,7 @@ const App: React.FC = () => {
           <Route
             index
             element={
-              <div className="flex min-h-screen">
+              <div className="min-h-screen justify-center flex">
                 <Sidebar />
                 <AdminQueue />
               </div>
