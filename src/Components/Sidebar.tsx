@@ -57,7 +57,7 @@ export default function Sidebar() {
               </a>
             </li>
             <NavLink
-              to="/settings"
+              to="/admin-queue/settings"
               className={({ isActive }: NavLinkRenderProps) =>
                 `group flex items-center transition ${isActive ? 'text-orange-500' : ''}`
               }
@@ -79,13 +79,8 @@ export default function Sidebar() {
 
         {/* SignOut Button */}
         <div className="p-4">
-          <button className="w-full bg-orange-500 text-white p-2 rounded-lg">Sign Out</button>
+          <button className="w-full bg-orange-500 text-white p-2 rounded-lg" onClick={handleSignOut}>Sign Out</button>
         </div>
-      </div>
-
-      {/* SignOut Button */}
-      <div className="p-4">
-        <button className="w-full bg-orange-500 text-white p-2 rounded-lg" onClick={handleSignOut}>Sign Out</button>
       </div>
       {/* Toggle Button always visible */}
       <button
