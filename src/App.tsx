@@ -124,27 +124,16 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-orange-100">
       <Routes>
         {/* this is the route the customer will see */}
-
-        {/* <Route path="/signin" element={<PublicRoute />}>
-          <Route index element={<SignIn />} />
-          <Route path="/signin/ticket-page" element={<Userface />} />
-
-        </Route> */}
         <Route path="signin" element={<SignIn />} />
-
-        <Route path="/" element={<PublicRoute />}>
-          
-          <Route path="queue" element={<Queue />} />
-          <Route index element={<Landing />} />
+        <Route path="/" element={<PublicRoute />}> 
+        <Route path="queue" element={<Queue />} />
+        <Route index element={<Landing />} />
         </Route>
 
         {/* this is the admin route */}
-
         {/* <Route element={<ProtectedRoute />}> */}
         <Route path="/not-an-employee" element={<ProtectedRoute />}>
-        <Route index element={<NotAnEmployee />} />
-        </Route>
-
+        <Route index element={<NotAnEmployee />} /></Route>
         <Route path="/admin-queue" element={<ProtectedRoute />}>
           <Route
             index
@@ -159,35 +148,13 @@ const App: React.FC = () => {
           <Route
             path="settings"
             element={
-              <div className="flex min-h-screen">
+              <div className="min-h-screen">
                 <Sidebar />
                 <Settings />
               </div>
             }
           />
         </Route>
-
-        {/* <Route
-            path="/sign-in-as-admin"
-            element={
-              <div className="flex min-h-screen">
-                <Sidebar />
-                <SigninAsAdmin />
-              </div>
-            }
-          />  */}
-
-        {/* <Route
-          path="/Company-name"
-            element={
-              <div className="flex min-h-screen">
-                <Sidebar />
-                <CompanyName />
-              </div>
-            }
-          /> */}
-
-        {/* </Route> */}
       </Routes>
     </div>
   );
