@@ -52,7 +52,8 @@ const StaffManager: React.FC = () => {
             firstName: newStaffName.firstName,
             lastName: newStaffName.lastName,
             email: newStaffEmail,
-            role: "admin", // Default role
+            role: "admin",
+            smeMail: ""
         };
         setStaffList([...staffList, newStaff]);
         setNewStaffName({ firstName: "", lastName: "" });
