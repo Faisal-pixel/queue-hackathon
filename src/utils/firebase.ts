@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, User } from "firebase/auth";
-import { deleteDoc, doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc, getFirestore, setDoc, Timestamp, updateDoc } from "firebase/firestore";
 import { TCustomer, TEmployee, Tsme } from "../types";
 
 // Your web app's Firebase configuration
@@ -97,17 +97,24 @@ const db = getFirestore();
   // 3. CREATE EMPLOYEE DOCUMENT
 
   export const createEmployeeDocument = async (smeEmail: string, employee: TEmployee) => {
-    const employeeDocRef = doc(db, "sme", smeEmail, "employees", employee.email);
-    const employeeDocSnapshot = await getDoc(employeeDocRef);
+    const smeDocRef = doc(db, "sme", smeEmail);
+    const smeDocSnapshot = await getDoc(smeDocRef);
 
-    if(!employeeDocSnapshot.exists()){
+    if(smeDocSnapshot.exists()){
       try {
-        await setDoc(employeeDocRef, {
-          firstName: employee.firstName,
-          lastName: employee.lastName,
-          email: employee.email,
-          role: employee.role,
-          dateAdded: employee.dateAdded,
+        const existingStaff = smeDocSnapshot.data()?.employees || [];
+        const checkIfStaffExists = existingStaff.some((staff: TEmployee) => staff.email === employee.email);
+        if(checkIfStaffExists) {
+          console.log("Staff already exists");
+          return;
+        }
+        const currentDate = new Date(); // Get the current date and time
+        const timestamp = Timestamp.fromDate(currentDate);
+        await updateDoc(smeDocRef, {
+          employees: [...existingStaff, {
+            ...employee,
+            dateAdded: timestamp
+          }]
         })
       } catch(error: unknown) {
         if( error instanceof Error) {
@@ -116,6 +123,8 @@ const db = getFirestore();
       console.log("An unknown error occurred.");
       } 
       }
+
+      return smeDocSnapshot.data()?.employees;
     }
   
   }
@@ -209,18 +218,24 @@ export const deleteCustomerFromQueue = async (smeEmail: string, ticketNo: number
 
 // 7. DELETE ADMIN FROM EMPLOYEE COLLECTION AND SME DOCUMENT
 export const deleteEmployeeFromSME = async (smeEmail: string, adminEmail: string) => {
-  const employeeDocRef = doc(db, "sme", smeEmail, "employees", adminEmail);
-  const employeeSnapshot = await getDoc(employeeDocRef);
+  const smeDocRef = doc(db, "sme", smeEmail);
+  const smeSnapshot = await getDoc(smeDocRef);
 
-  if(employeeSnapshot.exists()) {
+  if(smeSnapshot.exists()) {
     try {
-        await deleteDoc(employeeDocRef);
+      const existingStaff = smeSnapshot.data().employees || [];
+      const updatedStaff = existingStaff.filter((staff: TEmployee) => staff.email !== adminEmail);
+        await updateDoc(smeDocRef, {
+            employees: updatedStaff
+        });
         return "Admin deleted successfully";
     } catch(error) {
         if( error instanceof Error) {
             console.log("error deleting admin", error.message);
+            return "error deleting admin";
         } else {
             console.log("An unknown error occurred.");
+            return "An unknown error occurred.";
         }
     }
   } else {

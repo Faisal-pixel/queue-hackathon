@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { TEmployee } from "../../types";
 import { GlobalContext } from "../../context/global-context";
+import { createEmployeeCollection, createEmployeeDocument, deleteEmployeeFromCollection, deleteEmployeeFromSME } from "../../utils/firebase";
 
 const StaffManager: React.FC = () => {
     const [staffList, setStaffList] = useState<TEmployee[]>([]);
@@ -14,7 +15,7 @@ const StaffManager: React.FC = () => {
     const [editingStaffName, setEditingStaffName] = useState("");
     const [editingStaffEmail, setEditingStaffEmail] = useState("");
 
-    const {currentSME} = useContext(GlobalContext);
+    const {currentSME, currentUser} = useContext(GlobalContext);
 
     // Load staff data from localStorage when the component mounts
     useEffect(() => {
@@ -46,26 +47,39 @@ const StaffManager: React.FC = () => {
     //     return nextId.toString().padStart(3, "0");
     // };
 
-    const handleAddStaff = () => {
+    const handleAddStaff = async () => {
         // Remember to set the employee email
         const newStaff: TEmployee = {
             firstName: newStaffName.firstName,
             lastName: newStaffName.lastName,
             email: newStaffEmail,
+            smeMail: currentUser?.email as string,
             role: "admin", // Default role
         };
+        try {
+            await createEmployeeDocument(currentUser?.email as string, newStaff);
+            await createEmployeeCollection(currentUser?.email as string, newStaff);
+        } catch (error) {
+            console.log(error)
+        }
         setStaffList([...staffList, newStaff]);
         setNewStaffName({ firstName: "", lastName: "" });
         setNewStaffEmail("");
         setShowAddStaff(false);
     };
 
-    const handleDeleteStaff = (id: string) => {
+    const handleDeleteStaff = async (id: string) => {
         const updatedList = staffList
             .filter((staff) => staff.email !== id)
             .map((staff) => ({
                 ...staff,
             }));
+            try {
+                await deleteEmployeeFromSME(currentUser?.email as string, id);
+                await deleteEmployeeFromCollection(id);
+            } catch (error) {
+                console.log(error);
+            }
         setStaffList(updatedList);
     };
 

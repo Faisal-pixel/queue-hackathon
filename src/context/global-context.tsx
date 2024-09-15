@@ -20,8 +20,8 @@ type TGlobalContext = {
   setCurrentEmployee: (employee: TEmployee | null) => void;
   pageState: TpageState;
   setPageState: (state: TpageState) => void;
-  signInAsSME: boolean;
-  setSignInAsSME: (state: boolean) => void;
+  signInAsEmployee: boolean;
+  setSignInAsEmployee: (state: boolean) => void;
   allowAccess: boolean;
   setAllowAccess: (state: boolean) => void;
 };
@@ -35,8 +35,8 @@ export const GlobalContext = createContext<TGlobalContext>({
   setCurrentEmployee: () => {},
   pageState: "login",
   setPageState: () => {},
-  signInAsSME: false,
-  setSignInAsSME: () => {},
+  signInAsEmployee: false,
+  setSignInAsEmployee: () => {},
   allowAccess: false,
   setAllowAccess: () => {},
 });
@@ -48,7 +48,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     null
   );
   const [pageState, setPageState] = useState<TpageState>("login");
-  const [signInAsSME, setSignInAsSME] = useState<boolean>(false);
+  const [signInAsEmployee, setSignInAsEmployee] = useState<boolean>(false);
   const [allowAccess, setAllowAccess] = useState<boolean>(false);
 
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         // Check if the user exists as an SME
         console.log("from the use effect in global context", user);
         // ALL THIS IS FOR WHEN A USER CLICKS ON LOG IN AS AN  EMPLOYEE
-        if(!signInAsSME) {
+        if(signInAsEmployee) {
           console.log("Didnt click on sign in as sme, clicked on sign in as employee")
           const response = await checkIfAdminExists(user);
           if (!response) {
@@ -113,7 +113,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     });
 
     return unsubscribe;
-  }, [ signInAsSME, currentEmployee]);
+  }, [ signInAsEmployee, currentEmployee]);
 
   // useEffect(() => {
   //     // Getting the sme
@@ -167,8 +167,8 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         setCurrentEmployee,
         pageState,
         setPageState,
-        signInAsSME,
-        setSignInAsSME,
+        signInAsEmployee,
+        setSignInAsEmployee,
         allowAccess,
         setAllowAccess,
       }}

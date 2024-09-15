@@ -14,7 +14,7 @@ export const SignIn = () => {
     currentUser,
     currentSME,
     setCurrentSME,
-    setSignInAsSME,
+    setSignInAsEmployee,
     allowAccess
   } = useContext(GlobalContext);
   const [companyName, setCompanyName] = useState<string>("");
@@ -26,7 +26,6 @@ export const SignIn = () => {
 
   const handleSignIn = async () => {
     try {
-      setSignInAsSME(true);
        await signInWithGooglePopUp();
        
     } catch (error) {
@@ -65,6 +64,7 @@ export const SignIn = () => {
   
 
   const handleSignInAsEmployee = async () => {
+    setSignInAsEmployee(true);
     await signInWithGooglePopUp();
     // try {
     //   const { user } = await signInWithGooglePopUp();
