@@ -55,6 +55,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener(async (user) => {
+      
       if (!user) {
         setAllowAccess(false);
         setCurrentUser(null);

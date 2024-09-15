@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { TCustomer, Tsme } from "../../types";
 import { GlobalContext } from "../../context/global-context";
-import { getSmeDocument } from "../../utils/firebase";
+import { checkIfSmeExists, deleteCustomerFromQueue, getSmeDocument } from "../../utils/firebase";
+import { User } from "firebase/auth";
 
 const TicketTable = () => {
   //   const [newCustomer, setNewCustomer] = useState<Omit<TCustomer, "ticketNo">>({
@@ -72,11 +73,23 @@ const TicketTable = () => {
   }, [currentSME]);
   //   const [isAddingTicket, setIsAddingTicket] = useState(false);
 
-  const handleDeleteTicket = (ticketNoToDel: number) => {
+  const handleDeleteTicket = async (ticketNoToDel: number) => {
+    try {
+      const response = await checkIfSmeExists(currentUser as User);
+      if(!response) {
+        await deleteCustomerFromQueue(currentEmployee?.email as string, ticketNoToDel);
+      } else {
+        await deleteCustomerFromQueue(currentUser?.email as string, ticketNoToDel);
+      }
+    } catch (error) {
+      console.log("Error deleting ticket", error);
+    }
     setTickets((prevTickets) => {
       const filteredTickets = prevTickets.filter(
         (ticket) => ticket.ticketNo !== ticketNoToDel
       );
+
+      
       // Reorder IDs
       return filteredTickets.map((ticket, index) => ({
         ...ticket,
