@@ -65,6 +65,7 @@ const TicketTable = () => {
 
   // Load tickets from SME context
   useEffect(() => {
+    if(!currentSME)  return;
     if (currentSME) {
       setTickets(currentSME.queue || []);
     }

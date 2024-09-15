@@ -2,6 +2,7 @@ import { User } from "firebase/auth";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { TCustomer, TEmployee, TpageState, Tsme } from "../types";
 import {
+  checkIfAdminExists,
   checkIfSmeExists,
   getEmployeeCollection,
   getSmeDocRef,
@@ -57,16 +58,18 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
       if (!user) {
         setAllowAccess(false);
         setCurrentUser(null);
+        return;
       }
       setCurrentUser(user);
       if (user) {
         // Check if the user exists as an SME
-        console.log(user);
-
+        console.log("from the use effect in global context", user);
+        // ALL THIS IS FOR WHEN A USER CLICKS ON LOG IN AS AN  EMPLOYEE
         if(!signInAsSME) {
-          const response = await checkIfSmeExists(user);
+          console.log("Didnt click on sign in as sme, clicked on sign in as employee")
+          const response = await checkIfAdminExists(user);
           if (!response) {
-            console.log("User is not signing in as an SME");
+            console.log("User doesnt exist as an employee");
             navigate("/not-an-employee");
             setAllowAccess(true);
             return;
@@ -88,8 +91,12 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
           }
           setAllowAccess(true);
           navigate("/admin-queue");
+          return;
         }
 
+        // THE ABOVE IS FOR WHEN A USER CLICKS ON LOG IN AS AN  EMPLOYEE
+
+        // THE BELOW IS FOR WHEN A USER CLICKS ON LOG IN AS AN SME
         const response = await checkIfSmeExists(user);
         if (response) {
           console.log("User exists as an SME");
@@ -99,7 +106,6 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         } else {
           console.log("User does not exist as an SME");
           setPageState("insertCompanyName");
-          setCurrentUser(user);
           setAllowAccess(true);
           return;
         }
@@ -107,7 +113,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     });
 
     return unsubscribe;
-  }, [navigate, signInAsSME, currentEmployee]);
+  }, [ signInAsSME, currentEmployee]);
 
   // useEffect(() => {
   //     // Getting the sme

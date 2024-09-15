@@ -26,8 +26,8 @@ export const SignIn = () => {
 
   const handleSignIn = async () => {
     try {
-       await signInWithGooglePopUp();
       setSignInAsSME(true);
+       await signInWithGooglePopUp();
        
     } catch (error) {
       console.log(error);
