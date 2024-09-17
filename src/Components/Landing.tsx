@@ -61,10 +61,10 @@ const Landing = () => {
                             Experience the freedom of no waiting, ever again.
                         </p>
                         <Link to="/signin">
-            <button className="bg-orange-500 text-white px-6 py-3 rounded-full shadow-lg hover:bg-orange-400 transition duration-300">
-    Get Started
-  </button>
-</Link>
+                            <button className="bg-orange-500 text-white px-6 py-3 rounded-full shadow-lg hover:bg-orange-400 transition duration-300">
+                             Get Started
+                            </button>
+                        </Link>
                     </div>
 
                     {/* Right content (image and details) */}
