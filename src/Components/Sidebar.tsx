@@ -1,20 +1,19 @@
 import { NavLink, NavLinkRenderProps } from "react-router-dom";
 import { signOutUser } from "../utils/firebase";
-
-// Define the type for the NavLink component props
-
 import { useState } from 'react';
 
 export default function Sidebar() {
- const [isOpen, setIsOpen] = useState(true);
- const toggleSidebar = () => {
+  // Initialize state as false to have the sidebar closed initially
+  const [isOpen, setIsOpen] = useState(false);
+  
+  const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleSignOut = () => { 
-      localStorage.removeItem("staffList");
-      signOutUser();
-    }
+  const handleSignOut = () => {
+    localStorage.removeItem("staffList");
+    signOutUser();
+  };
 
   return (
     <div className="flex">
@@ -23,12 +22,12 @@ export default function Sidebar() {
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        {/* {HEADER} */}
+        {/* HEADER */}
         <div className="flex items-center justify-between p-4 bg-orange-400">
           <h1 className="text-white text-xl font-bold text-center">QueueNot</h1>
         </div>
 
-        {/* {NAVIGATION TO PAGES} */}
+        {/* NAVIGATION TO PAGES */}
         <nav className="flex-1 p-4">
           <ul className="space-y-10 pt-10">
             <NavLink
@@ -79,17 +78,24 @@ export default function Sidebar() {
 
         {/* SignOut Button */}
         <div className="p-4">
-          <button className="w-full bg-orange-500 text-white p-2 rounded-lg" onClick={handleSignOut}>Sign Out</button>
+          <button
+            className="w-full bg-orange-500 text-white p-2 rounded-lg"
+            onClick={handleSignOut}
+          >
+            Sign Out
+          </button>
         </div>
       </div>
+
       {/* Toggle Button always visible */}
       <button
         onClick={toggleSidebar}
-        className={`fixed top-4 ${isOpen ? 'left-64' : 'left-4'} text-white bg-orange-400 p-2 rounded-full focus:outline-none transition-all duration-300 lg:invisible`}
+        className={`fixed top-4 ${isOpen ? 'left-64' : 'left-4'} text-white bg-orange-400 p-2 rounded-full focus:outline-none transition-all duration-300`}
       >
         <i className={`fas ${isOpen ? 'fa-angle-left' : 'fa-angle-right'}`}></i>
       </button>
     </div>
   );
 }
+
 

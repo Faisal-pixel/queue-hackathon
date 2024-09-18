@@ -72,52 +72,33 @@ export const SignIn = () => {
     } finally{
       setSignInAsEmployee(false);
     }
-    // try {
-    //   const { user } = await signInWithGooglePopUp();
-    //   // After they have authenticated, we want to check if they exist, and if they dont, we sign them out, but if they do we let them in
-    //   const smeEmail = await checkIfAdminExists(user);
-    //   if (!smeEmail) {
-    //     navigate("/not-an-employee");
-    //     return;
-    //   }
-    //   const response = await getSmeDocument(smeEmail);
-
-    //   if (response) {
-    //     setCurrentUser(user);
-    //     setCurrentSME(response as Tsme);
-    //     navigate("/admin-queue");
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // } finally {
-    // //   setSigningOut(false);
-    //   setPageState("login")
-    // }
+   
   };
   console.log(pageState)
   console.log(allowAccess)
+
   return (
     <>
-      {/* {signingOut && (
-        <div className="flex items-center justify-center  h-screen">
-          <p className="text-2xl">
-            You do not exist as an Employee. Try creating an account as an SME
-          </p>
-        </div>
-      )} */}
-      {pageState === "insertCompanyName" && (
-        <div>
-          <h1>Insert Company Name</h1>
+       {pageState === "insertCompanyName" && (
+      <div className="flex items-center justify-center min-h-screen bg-orange-100">
+        <div className="bg-orange-100 p-6 rounded-lg shadow-lg max-w-sm w-full">
+          <h1 className="text-2xl font-bold mb-4">Insert Company Name</h1>
           <input
             value={companyName}
             onChange={(e) => setCompanyName(e.target.value)}
             type="text"
+            placeholder="Enter company name"
+            className="w-full p-2 border border-gray-300 rounded mb-4"
           />
-          <button onClick={() => handleCompanyNameSubmit(companyName)}>
+          <button
+            onClick={() => handleCompanyNameSubmit(companyName)}
+            className="w-full bg-orange-400 text-white p-2 rounded hover:bg-orange-500"
+          >
             Submit
           </button>
         </div>
-      )}
+      </div>
+    )}
       {pageState === "login" && (
         <div className="flex items-center justify-center  h-screen">
           <div className="space-x-2">
