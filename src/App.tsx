@@ -133,7 +133,6 @@ const App: React.FC = () => {
         <Route path="signin" element={<SignIn />} />
 
         <Route path="/" element={<PublicRoute />}>
-          
           <Route path="queue" element={<Queue />} />
           <Route index element={<Landing />} />
         </Route>
@@ -142,12 +141,12 @@ const App: React.FC = () => {
 
         {/* <Route element={<ProtectedRoute />}> */}
         <Route path="/not-an-employee" element={<ProtectedRoute />}>
-        <Route index element={<NotAnEmployee />} />
+          <Route index element={<NotAnEmployee />} />
         </Route>
 
-        <Route path="/admin-queue" element={<ProtectedRoute />}>
+        <Route  element={<ProtectedRoute />}>
           <Route
-            index
+            path="/admin-queue"
             element={
               <div className="min-h-screen justify-center flex">
                 <Sidebar />
@@ -157,7 +156,7 @@ const App: React.FC = () => {
           />
 
           <Route
-            path="settings"
+            path="/settings"
             element={
               <div className="flex min-h-screen">
                 <Sidebar />

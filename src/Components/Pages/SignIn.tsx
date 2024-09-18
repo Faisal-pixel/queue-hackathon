@@ -64,8 +64,14 @@ export const SignIn = () => {
   
 
   const handleSignInAsEmployee = async () => {
-    setSignInAsEmployee(true);
+    try {
+      setSignInAsEmployee(true);
     await signInWithGooglePopUp();
+    } catch (error) {
+      console.log(error);
+    } finally{
+      setSignInAsEmployee(false);
+    }
     // try {
     //   const { user } = await signInWithGooglePopUp();
     //   // After they have authenticated, we want to check if they exist, and if they dont, we sign them out, but if they do we let them in

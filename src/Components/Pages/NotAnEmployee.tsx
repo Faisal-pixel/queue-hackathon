@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { signOutUser } from '../../utils/firebase'
+import { GlobalContext } from '../../context/global-context'
 
 
 
 const NotAnEmployee: React.FC = () => {
+  const {setSignInAsEmployee} = useContext(GlobalContext)
   useEffect(() => {
     const timer = setTimeout(() => {
+      setSignInAsEmployee(false);
       signOutUser()
     }, 3000)
 

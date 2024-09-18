@@ -7,6 +7,7 @@ import {
   getEmployeeCollection,
   getSmeDocRef,
   onAuthStateChangedListener,
+  signOutUser,
 } from "../utils/firebase";
 import { onSnapshot } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
@@ -53,21 +54,27 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 
   const navigate = useNavigate();
 
+// useEffect(() => {
+//   signOutUser();
+// },  []);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener(async (user) => {
-      
       if (!user) {
         setAllowAccess(false);
         setCurrentUser(null);
         return;
       }
+      if (currentUser && currentUser.uid === user.uid) return;
       setCurrentUser(user);
       if (user) {
         // Check if the user exists as an SME
         console.log("from the use effect in global context", user);
         // ALL THIS IS FOR WHEN A USER CLICKS ON LOG IN AS AN  EMPLOYEE
-        if(signInAsEmployee) {
-          console.log("Didnt click on sign in as sme, clicked on sign in as employee")
+        if (signInAsEmployee) {
+          console.log(
+            "Didnt click on sign in as sme, clicked on sign in as employee"
+          );
           const response = await checkIfAdminExists(user);
           if (!response) {
             console.log("User doesnt exist as an employee");
@@ -78,43 +85,43 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 
           const employeeDoc = await getEmployeeCollection(user);
 
-          if(employeeDoc) {
+          if (employeeDoc) {
             const newEmployee: TEmployee = {
               ...currentEmployee,
               firstName: employeeDoc.firstName,
               lastName: employeeDoc.lastName,
               email: employeeDoc.email,
               role: "admin",
-              smeMail: employeeDoc.smeMail
-            }
+              smeMail: employeeDoc.smeMail,
+            };
 
-            setCurrentEmployee(newEmployee)
+            setCurrentEmployee(newEmployee);
           }
           setAllowAccess(true);
           navigate("/admin-queue");
           return;
-        }
-
-        // THE ABOVE IS FOR WHEN A USER CLICKS ON LOG IN AS AN  EMPLOYEE
-
-        // THE BELOW IS FOR WHEN A USER CLICKS ON LOG IN AS AN SME
-        const response = await checkIfSmeExists(user);
-        if (response) {
-          console.log("User exists as an SME");
-          setAllowAccess(true);
-          navigate("admin-queue");
-          return;
         } else {
-          console.log("User does not exist as an SME");
-          setPageState("insertCompanyName");
-          setAllowAccess(true);
-          return;
+          // THE ABOVE IS FOR WHEN A USER CLICKS ON LOG IN AS AN  EMPLOYEE
+
+          // THE BELOW IS FOR WHEN A USER CLICKS ON LOG IN AS AN SME
+          const response = await checkIfSmeExists(user);
+          if (response) {
+            console.log("User exists as an SME");
+            setAllowAccess(true);
+            navigate("admin-queue");
+            return;
+          } else {
+            console.log("User does not exist as an SME");
+            setPageState("insertCompanyName");
+            setAllowAccess(true);
+            return;
+          }
         }
       }
     });
 
     return unsubscribe;
-  }, [ signInAsEmployee, currentEmployee]);
+  }, [currentEmployee, signInAsEmployee]);
 
   // useEffect(() => {
   //     // Getting the sme

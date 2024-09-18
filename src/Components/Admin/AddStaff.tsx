@@ -14,8 +14,9 @@ const StaffManager: React.FC = () => {
     const [editingStaffId, setEditingStaffId] = useState<string | null>(null);
     const [editingStaffName, setEditingStaffName] = useState("");
     const [editingStaffEmail, setEditingStaffEmail] = useState("");
+    const [isEmployee, setIsEmployee] = useState(false);
 
-    const {currentSME, currentUser} = useContext(GlobalContext);
+    const {currentSME, currentUser, currentEmployee} = useContext(GlobalContext);
 
     // Load staff data from localStorage when the component mounts
     useEffect(() => {
@@ -24,6 +25,12 @@ const StaffManager: React.FC = () => {
             setStaffList(JSON.parse(storedStaffList));
         }
     }, []);
+
+    // useEffect(() => {
+    //     if(currentEmployee) {
+    //         setIsEmployee(true);
+    //     }
+    // }, [currentEmployee]);
 
     useEffect(() => {
         if(currentSME) {

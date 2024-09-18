@@ -57,7 +57,7 @@ export default function Sidebar() {
               </a>
             </li>
             <NavLink
-              to="/admin-queue/settings"
+              to="/settings"
               className={({ isActive }: NavLinkRenderProps) =>
                 `group flex items-center transition ${isActive ? 'text-orange-500' : ''}`
               }
