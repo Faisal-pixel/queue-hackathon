@@ -1,10 +1,13 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { TCustomer, Tsme } from "../../types";
 import { GlobalContext } from "../../context/global-context";
-import { checkIfSmeExists, deleteCustomerFromQueue, getSmeDocument } from "../../utils/firebase";
+import {
+  checkIfSmeExists,
+  deleteCustomerFromQueue,
+  getSmeDocument,
+} from "../../utils/firebase";
 import { User } from "firebase/auth";
 import { QRCodeSVG } from "qrcode.react";
-
 
 const TicketTable = () => {
   //   const [newCustomer, setNewCustomer] = useState<Omit<TCustomer, "ticketNo">>({
@@ -21,6 +24,8 @@ const TicketTable = () => {
   const [tickets, setTickets] = useState<TCustomer[]>([]);
   const [qrUrl, setQrUrl] = useState<string>("");
 
+  const qrCodeRef = useRef<SVGSVGElement>(null);
+
   // Load SME data
   useEffect(() => {
     if (!currentUser) return;
@@ -30,7 +35,9 @@ const TicketTable = () => {
       try {
         //If current user is a currentEmployee, then use the smeMail to get the smeDocument
         if (currentEmployee) {
-          const smeDoc = await getSmeDocument(currentEmployee.smeMail as string);
+          const smeDoc = await getSmeDocument(
+            currentEmployee.smeMail as string
+          );
           if (smeDoc && typeof smeDoc !== "boolean") {
             newSME = {
               ...currentSME,
@@ -69,7 +76,7 @@ const TicketTable = () => {
 
   // Load tickets from SME context
   useEffect(() => {
-    if(!currentSME)  return;
+    if (!currentSME) return;
     if (currentSME) {
       setTickets(currentSME.queue || []);
     }
@@ -79,10 +86,16 @@ const TicketTable = () => {
   const handleDeleteTicket = async (ticketNoToDel: number) => {
     try {
       const response = await checkIfSmeExists(currentUser as User);
-      if(!response) {
-        await deleteCustomerFromQueue(currentEmployee?.email as string, ticketNoToDel);
+      if (!response) {
+        await deleteCustomerFromQueue(
+          currentEmployee?.email as string,
+          ticketNoToDel
+        );
       } else {
-        await deleteCustomerFromQueue(currentUser?.email as string, ticketNoToDel);
+        await deleteCustomerFromQueue(
+          currentUser?.email as string,
+          ticketNoToDel
+        );
       }
     } catch (error) {
       console.log("Error deleting ticket", error);
@@ -92,7 +105,6 @@ const TicketTable = () => {
         (ticket) => ticket.ticketNo !== ticketNoToDel
       );
 
-      
       // Reorder IDs
       return filteredTickets.map((ticket, index) => ({
         ...ticket,
@@ -102,13 +114,14 @@ const TicketTable = () => {
   };
 
   const handleGenerateQr = () => {
-    const adminORSmeEmail = currentEmployee?.smeMail || (currentSME ? currentUser?.email : null);
+    const adminORSmeEmail =
+      currentEmployee?.smeMail || (currentSME ? currentUser?.email : null);
     console.log(adminORSmeEmail);
     const location = window.location.href;
     const parsedUrl = new URL(location);
     // const qr_svg = location?.includes(`localhost/${adminORSmeEmail}`) ? qr.image(`${location}`, { type: "svg" }) : qr.image(`https://queue-bice.vercel.app/${adminORSmeEmail}`, { type: "svg" });
-    if(location?.includes(`localhost`)) {
-      setQrUrl(`${parsedUrl.protocol}${parsedUrl.host}/${adminORSmeEmail}`);
+    if (location?.includes(`localhost`)) {
+      setQrUrl(`${parsedUrl.protocol}//${parsedUrl.host}/${adminORSmeEmail}`);
     } else {
       setQrUrl(`https://queue-bice.vercel.app/${adminORSmeEmail}`);
     }
@@ -117,18 +130,63 @@ const TicketTable = () => {
     console.log(qrUrl);
   };
 
+  const downloadQRCode = () => {
+    if (!qrCodeRef.current) return;
+
+    // Convert SVG to Canvas
+    const svgElement = qrCodeRef.current;
+    const svgData = new XMLSerializer().serializeToString(svgElement);
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const img = new Image();
+    img.src = "data:image/svg+xml;base64," + window.btoa(svgData);
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+
+      // Convert canvas to PNG data URL
+      const pngUrl = canvas.toDataURL("image/png");
+      const downloadLink = document.createElement("a");
+      downloadLink.href = pngUrl;
+      downloadLink.download = "qrcode.png";
+      downloadLink.click();
+    };
+  };
+
   const formatId = (id: number) => id.toString().padStart(3, "0");
 
   return (
     <div className="flex flex-col p-4 gap-y-5">
       <h1 className="text-3xl font-bold mb-4 pt-5">Queue Management</h1>
       <div>
-        <p className="mb-3">Click the button below to generate a qr code for your cusotmers.  </p>
-        <button onClick={handleGenerateQr} type="button" className="px-4 py-2 bg-transparent border-2 border-orange-400 w-full">Generate QR code</button>
+        <p className="mb-3">
+          Click the button below to generate a qr code for your cusotmers.{" "}
+        </p>
+        <button
+          onClick={handleGenerateQr}
+          type="button"
+          className="px-4 py-2 bg-transparent border-2 border-orange-400 w-full"
+        >
+          Generate QR code
+        </button>
+        {qrUrl && (
+          <div className="flex flex-col mt-4 gap-y-2">
+            <span className="self-center">
+              <QRCodeSVG ref={qrCodeRef} value={qrUrl} />
+            </span>
 
-        <div>
-          {qrUrl && <QRCodeSVG value={qrUrl} />}
-        </div>
+            <button
+              className="px-4 py-2 bg-transparent border-2 border-orange-400 w-full"
+              type="button"
+              onClick={downloadQRCode}
+            >
+              Download
+            </button>
+          </div>
+        )}
       </div>
 
       {tickets.length === 0 && (
@@ -167,7 +225,9 @@ const TicketTable = () => {
                   </td>
 
                   <td className="border px-4 py-2 text-center break-words">
-                    <p>{ticket.ready && ticket.ready.toDate().toLocaleString()}</p>
+                    <p>
+                      {ticket.ready && ticket.ready.toDate().toLocaleString()}
+                    </p>
                   </td>
                   <td className="border px-4 py-2 text-center break-words">
                     <button
