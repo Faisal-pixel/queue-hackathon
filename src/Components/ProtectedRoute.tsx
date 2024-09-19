@@ -10,10 +10,11 @@ const ProtectedRoute: React.FC = () => {
  
   const location = useLocation();
 
-  const { allowAccess } = useContext(GlobalContext);
-  if(!allowAccess) return <Navigate to="/signin" state={{ from: location }} replace  />;
+  const { currentUser, loading } = useContext(GlobalContext);
+  if(loading) return <div>Loading...</div>;
+  if(!currentUser) return <Navigate to="/signin" state={{ from: location }} replace  />;
 
-  if(allowAccess) return <Outlet />;
+  if(currentUser) return <Outlet />;
 };
 
 export default ProtectedRoute;

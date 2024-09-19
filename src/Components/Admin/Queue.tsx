@@ -3,6 +3,8 @@ import { TCustomer, Tsme } from "../../types";
 import { GlobalContext } from "../../context/global-context";
 import { checkIfSmeExists, deleteCustomerFromQueue, getSmeDocument } from "../../utils/firebase";
 import { User } from "firebase/auth";
+import { QRCodeSVG } from "qrcode.react";
+
 
 const TicketTable = () => {
   //   const [newCustomer, setNewCustomer] = useState<Omit<TCustomer, "ticketNo">>({
@@ -17,6 +19,7 @@ const TicketTable = () => {
   const { currentSME, currentUser, currentEmployee, setCurrentSME } =
     useContext(GlobalContext);
   const [tickets, setTickets] = useState<TCustomer[]>([]);
+  const [qrUrl, setQrUrl] = useState<string>("");
 
   // Load SME data
   useEffect(() => {
@@ -98,11 +101,35 @@ const TicketTable = () => {
     });
   };
 
+  const handleGenerateQr = () => {
+    const adminORSmeEmail = currentEmployee?.smeMail || (currentSME ? currentUser?.email : null);
+    console.log(adminORSmeEmail);
+    const location = window.location.href;
+    const parsedUrl = new URL(location);
+    // const qr_svg = location?.includes(`localhost/${adminORSmeEmail}`) ? qr.image(`${location}`, { type: "svg" }) : qr.image(`https://queue-bice.vercel.app/${adminORSmeEmail}`, { type: "svg" });
+    if(location?.includes(`localhost`)) {
+      setQrUrl(`${parsedUrl.protocol}${parsedUrl.host}/${adminORSmeEmail}`);
+    } else {
+      setQrUrl(`https://queue-bice.vercel.app/${adminORSmeEmail}`);
+    }
+    // qr_svg.pipe(fs.createWriteStream("qr-code.svg"));
+
+    console.log(qrUrl);
+  };
+
   const formatId = (id: number) => id.toString().padStart(3, "0");
 
   return (
-    <div className="p-4">
+    <div className="flex flex-col p-4 gap-y-5">
       <h1 className="text-3xl font-bold mb-4 pt-5">Queue Management</h1>
+      <div>
+        <p className="mb-3">Click the button below to generate a qr code for your cusotmers.  </p>
+        <button onClick={handleGenerateQr} type="button" className="px-4 py-2 bg-transparent border-2 border-orange-400 w-full">Generate QR code</button>
+
+        <div>
+          {qrUrl && <QRCodeSVG value={qrUrl} />}
+        </div>
+      </div>
 
       {tickets.length === 0 && (
         <div>

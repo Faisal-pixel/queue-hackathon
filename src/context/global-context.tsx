@@ -7,7 +7,6 @@ import {
   getEmployeeCollection,
   getSmeDocRef,
   onAuthStateChangedListener,
-  signOutUser,
 } from "../utils/firebase";
 import { onSnapshot } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
@@ -21,10 +20,10 @@ type TGlobalContext = {
   setCurrentEmployee: (employee: TEmployee | null) => void;
   pageState: TpageState;
   setPageState: (state: TpageState) => void;
-  signInAsEmployee: boolean;
-  setSignInAsEmployee: (state: boolean) => void;
   allowAccess: boolean;
   setAllowAccess: (state: boolean) => void;
+  loading: boolean;
+  setLoading: (state: boolean) => void;
 };
 
 export const GlobalContext = createContext<TGlobalContext>({
@@ -36,10 +35,10 @@ export const GlobalContext = createContext<TGlobalContext>({
   setCurrentEmployee: () => {},
   pageState: "login",
   setPageState: () => {},
-  signInAsEmployee: false,
-  setSignInAsEmployee: () => {},
   allowAccess: false,
   setAllowAccess: () => {},
+  loading: false,
+  setLoading: () => {},
 });
 
 export const GlobalProvider = ({ children }: { children: ReactNode }) => {
@@ -49,8 +48,9 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     null
   );
   const [pageState, setPageState] = useState<TpageState>("login");
-  const [signInAsEmployee, setSignInAsEmployee] = useState<boolean>(false);
+  // const [signInAsEmployee, setSignInAsEmployee] = useState<boolean>(false);
   const [allowAccess, setAllowAccess] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const navigate = useNavigate();
 
@@ -59,27 +59,35 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 // },  []);
 
   useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    if (storedUser) {
+      setCurrentUser(storedUser);
+    }
+
+    
     const unsubscribe = onAuthStateChangedListener(async (user) => {
+      setLoading(false);
       if (!user) {
         setAllowAccess(false);
         setCurrentUser(null);
         return;
       }
-      if (currentUser && currentUser.uid === user.uid) return;
+      if (currentUser && currentUser.uid === user?.uid) {return};
       setCurrentUser(user);
+      localStorage.setItem('currentUser', JSON.stringify(user));
       if (user) {
         // Check if the user exists as an SME
-        console.log("from the use effect in global context", user);
         // ALL THIS IS FOR WHEN A USER CLICKS ON LOG IN AS AN  EMPLOYEE
+        const signInAsEmployee = localStorage.getItem("signInAsEmployee") === "true";
         if (signInAsEmployee) {
           console.log(
             "Didnt click on sign in as sme, clicked on sign in as employee"
           );
           const response = await checkIfAdminExists(user);
           if (!response) {
-            console.log("User doesnt exist as an employee");
             navigate("/not-an-employee");
             setAllowAccess(true);
+            // localStorage.removeItem("signInAsEmployee")
             return;
           }
 
@@ -96,24 +104,29 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
             };
 
             setCurrentEmployee(newEmployee);
+            setAllowAccess(true);
+            navigate("/admin-queue");
+            // localStorage.removeItem("signInAsEmployee");
+            return;
           }
-          setAllowAccess(true);
-          navigate("/admin-queue");
-          return;
         } else {
           // THE ABOVE IS FOR WHEN A USER CLICKS ON LOG IN AS AN  EMPLOYEE
 
           // THE BELOW IS FOR WHEN A USER CLICKS ON LOG IN AS AN SME
+          const isSignInAsSME = localStorage.getItem("signInAsAnSME") === "true";
+          if(!isSignInAsSME) {
+            return
+          }
           const response = await checkIfSmeExists(user);
           if (response) {
-            console.log("User exists as an SME");
             setAllowAccess(true);
             navigate("admin-queue");
+            // localStorage.removeItem("signInAsAnSME")
             return;
           } else {
-            console.log("User does not exist as an SME");
             setPageState("insertCompanyName");
             setAllowAccess(true);
+            // localStorage.removeItem("signInAsAnSME")
             return;
           }
         }
@@ -121,7 +134,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     });
 
     return unsubscribe;
-  }, [currentEmployee, signInAsEmployee]);
+  }, []);
 
   // useEffect(() => {
   //     // Getting the sme
@@ -175,10 +188,10 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         setCurrentEmployee,
         pageState,
         setPageState,
-        signInAsEmployee,
-        setSignInAsEmployee,
         allowAccess,
         setAllowAccess,
+        loading,
+        setLoading,
       }}
     >
       {children}

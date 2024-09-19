@@ -12,6 +12,8 @@ export default function Sidebar() {
 
   const handleSignOut = () => {
     localStorage.removeItem("staffList");
+    localStorage.removeItem("signInAsAnSME");
+    localStorage.removeItem("signInAsEmployee");
     signOutUser();
   };
 

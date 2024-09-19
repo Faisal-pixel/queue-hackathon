@@ -140,7 +140,7 @@ export const createEmployeeCollection = async (smeEmail: string, employee: TEmpl
       await setDoc(employeeCollectionRef, {
         firstName: employee.firstName,
         lastName: employee.lastName,
-        smeEmail: smeEmail,
+        smeMail: smeEmail,
       })
     } catch(error: unknown) {
       if( error instanceof Error) {
@@ -309,7 +309,7 @@ export const checkIfAdminExists = async (userAuth: User) => {
   const employeeDocSnapshot = await getDoc(employeeDocRef);
 
   if(employeeDocSnapshot.exists()){
-    return employeeDocSnapshot.data().smeEmail;
+    return employeeDocSnapshot.data().smeMail;
   } else {
     return false;
   }

@@ -14,8 +14,6 @@ export const SignIn = () => {
     currentUser,
     currentSME,
     setCurrentSME,
-    setSignInAsEmployee,
-    allowAccess
   } = useContext(GlobalContext);
   const [companyName, setCompanyName] = useState<string>("");
 //   const [signingOut, setSigningOut] = useState(false);
@@ -26,6 +24,7 @@ export const SignIn = () => {
 
   const handleSignIn = async () => {
     try {
+      localStorage.setItem("signInAsAnSME", "true");
        await signInWithGooglePopUp();
        
     } catch (error) {
@@ -65,17 +64,14 @@ export const SignIn = () => {
 
   const handleSignInAsEmployee = async () => {
     try {
-      setSignInAsEmployee(true);
+      localStorage.setItem("signInAsEmployee", "true");
     await signInWithGooglePopUp();
     } catch (error) {
       console.log(error);
-    } finally{
-      setSignInAsEmployee(false);
     }
    
   };
-  console.log(pageState)
-  console.log(allowAccess)
+  
 
   return (
     <>
