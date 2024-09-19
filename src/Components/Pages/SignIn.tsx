@@ -6,6 +6,7 @@ import {
 import { GlobalContext } from "../../context/global-context";
 import { Tsme } from "../../types";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 export const SignIn = () => {
   const {
@@ -16,6 +17,7 @@ export const SignIn = () => {
     setCurrentSME,
   } = useContext(GlobalContext);
   const [companyName, setCompanyName] = useState<string>("");
+  const {toast} = useToast();
 //   const [signingOut, setSigningOut] = useState(false);
 
   // When a user clicks on log in as an admin and if the user does not exist, sign them out, now if the user exist, t
@@ -68,6 +70,10 @@ export const SignIn = () => {
     await signInWithGooglePopUp();
     } catch (error) {
       console.log(error);
+    } finally {
+      toast({
+        description: "You have successfully signed in as an Employee"
+      })
     }
    
   };

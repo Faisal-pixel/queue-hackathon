@@ -1,10 +1,12 @@
 import { NavLink, NavLinkRenderProps } from "react-router-dom";
 import { signOutUser } from "../utils/firebase";
 import { useState } from 'react';
+import { useToast } from "@/hooks/use-toast";
 
 export default function Sidebar() {
   // Initialize state as false to have the sidebar closed initially
   const [isOpen, setIsOpen] = useState(false);
+  const {toast} = useToast();
   
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -15,6 +17,9 @@ export default function Sidebar() {
     localStorage.removeItem("signInAsAnSME");
     localStorage.removeItem("signInAsEmployee");
     signOutUser();
+    toast({
+      description: "You have successfully signed out"
+    })
   };
 
   return (

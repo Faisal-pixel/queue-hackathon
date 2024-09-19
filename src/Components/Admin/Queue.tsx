@@ -8,6 +8,7 @@ import {
 } from "../../utils/firebase";
 import { User } from "firebase/auth";
 import { QRCodeSVG } from "qrcode.react";
+import { useToast } from "@/hooks/use-toast";
 
 const TicketTable = () => {
   //   const [newCustomer, setNewCustomer] = useState<Omit<TCustomer, "ticketNo">>({
@@ -25,6 +26,7 @@ const TicketTable = () => {
   const [qrUrl, setQrUrl] = useState<string>("");
 
   const qrCodeRef = useRef<SVGSVGElement>(null);
+  const {toast} = useToast();
 
   // Load SME data
   useEffect(() => {
@@ -126,12 +128,18 @@ const TicketTable = () => {
       setQrUrl(`https://queue-bice.vercel.app/${adminORSmeEmail}`);
     }
     // qr_svg.pipe(fs.createWriteStream("qr-code.svg"));
-
-    console.log(qrUrl);
+    toast({
+      description: "QR code generated successfully",
+    })
+    
   };
 
   const downloadQRCode = () => {
     if (!qrCodeRef.current) return;
+
+    toast({
+      description: "Downloading QR code...",
+    })
 
     // Convert SVG to Canvas
     const svgElement = qrCodeRef.current;
@@ -154,6 +162,7 @@ const TicketTable = () => {
       downloadLink.download = "qrcode.png";
       downloadLink.click();
     };
+
   };
 
   const formatId = (id: number) => id.toString().padStart(3, "0");

@@ -8,6 +8,7 @@ import { SignIn } from "./Components/Pages/SignIn";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import PublicRoute from "./Components/PublicRoute";
 import NotAnEmployee from "./Components/Pages/NotAnEmployee";
+import { Toaster } from "./Components/ui/toaster";
 
 
 const App: React.FC = () => {
@@ -52,6 +53,8 @@ const App: React.FC = () => {
           />
         </Route>
       </Routes>
+
+      <Toaster />
     </div>
   );
 };
