@@ -1,4 +1,3 @@
-import { useContext, useEffect, useRef, useState } from "react";
 import { TCustomer, Tsme } from "../../types";
 import { GlobalContext } from "../../context/global-context";
 import {
@@ -9,24 +8,15 @@ import {
 import { User } from "firebase/auth";
 import { QRCodeSVG } from "qrcode.react";
 import { useToast } from "@/hooks/use-toast";
+import { useContext, useState, useRef, useEffect } from "react";
 
 const TicketTable = () => {
-  //   const [newCustomer, setNewCustomer] = useState<Omit<TCustomer, "ticketNo">>({
-  //     customerName: "",
-  //     customerEmail: "",
-  //     customerPhone: "",
-  //     status: "in process",
-  //     ready: 0,
-  //     notified: false,
-  //   });
-
-  const { currentSME, currentUser, currentEmployee, setCurrentSME } =
-    useContext(GlobalContext);
+  const { currentSME, currentUser, currentEmployee, setCurrentSME } = useContext(GlobalContext);
   const [tickets, setTickets] = useState<TCustomer[]>([]);
   const [qrUrl, setQrUrl] = useState<string>("");
 
   const qrCodeRef = useRef<SVGSVGElement>(null);
-  const {toast} = useToast();
+  const { toast } = useToast();
 
   // Load SME data
   useEffect(() => {
@@ -74,7 +64,7 @@ const TicketTable = () => {
     };
 
     fetchDocument();
-  }, [currentUser, currentEmployee, currentSME, setCurrentSME]);
+  }, [currentUser, currentEmployee, currentSME, setCurrentSME, toast]);
 
   // Load tickets from SME context
   useEffect(() => {
@@ -83,7 +73,6 @@ const TicketTable = () => {
       setTickets(currentSME.queue || []);
     }
   }, [currentSME]);
-  //   const [isAddingTicket, setIsAddingTicket] = useState(false);
 
   const handleDeleteTicket = async (ticketNoToDel: number) => {
     try {
@@ -116,22 +105,19 @@ const TicketTable = () => {
   };
 
   const handleGenerateQr = () => {
-    const adminORSmeEmail =
-      currentEmployee?.smeMail || (currentSME ? currentUser?.email : null);
-    console.log(adminORSmeEmail);
+    const smeIdentifier = currentSME?.smeName || currentEmployee?.smeMail || currentUser?.email;
     const location = window.location.href;
     const parsedUrl = new URL(location);
-    // const qr_svg = location?.includes(`localhost/${adminORSmeEmail}`) ? qr.image(`${location}`, { type: "svg" }) : qr.image(`https://queue-bice.vercel.app/${adminORSmeEmail}`, { type: "svg" });
+
     if (location?.includes(`localhost`)) {
-      setQrUrl(`${parsedUrl.protocol}//${parsedUrl.host}/${adminORSmeEmail}`);
+      setQrUrl(`${parsedUrl.protocol}//${parsedUrl.host}/${smeIdentifier}`);
     } else {
-      setQrUrl(`https://queue-bice.vercel.app/${adminORSmeEmail}`);
+      setQrUrl(`https://queue-bice.vercel.app/${smeIdentifier}`);
     }
-    // qr_svg.pipe(fs.createWriteStream("qr-code.svg"));
+
     toast({
       description: "QR code generated successfully",
-    })
-    
+    });
   };
 
   const downloadQRCode = () => {
@@ -139,9 +125,8 @@ const TicketTable = () => {
 
     toast({
       description: "Downloading QR code...",
-    })
+    });
 
-    // Convert SVG to Canvas
     const svgElement = qrCodeRef.current;
     const svgData = new XMLSerializer().serializeToString(svgElement);
     const canvas = document.createElement("canvas");
@@ -162,7 +147,6 @@ const TicketTable = () => {
       downloadLink.download = "qrcode.png";
       downloadLink.click();
     };
-
   };
 
   const formatId = (id: number) => id.toString().padStart(3, "0");
@@ -172,7 +156,7 @@ const TicketTable = () => {
       <h1 className="text-3xl font-bold mb-4 pt-5">Queue Management</h1>
       <div>
         <p className="mb-3">
-          Click the button below to generate a qr code for your cusotmers.{" "}
+          Click the button below to generate a QR code for your customers.{" "}
         </p>
         <button
           onClick={handleGenerateQr}
