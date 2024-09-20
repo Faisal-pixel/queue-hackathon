@@ -20,7 +20,7 @@ const App: React.FC = () => {
         <Route path="signin" element={<SignIn />} />
 
         <Route path="/" element={<PublicRoute />}>
-          <Route path="queue" element={<Queue />} />
+          <Route path="queue/:smeEmail" element={<Queue />} />
           <Route index element={<Landing />} />
         </Route>
 

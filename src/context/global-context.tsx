@@ -162,7 +162,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
           ...(data as Tsme),
           queue: data.queue.map((customer: TCustomer) => ({
             ...customer,
-            ready: customer.ready.toDate().getTime(),
+            // ready: customer.ready.toDate().getTime(),
           })),
           employees: data.employees.map((employee: TEmployee) => ({
             ...employee,

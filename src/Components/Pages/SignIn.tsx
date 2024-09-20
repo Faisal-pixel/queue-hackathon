@@ -26,6 +26,7 @@ export const SignIn = () => {
 
   const handleSignIn = async () => {
     try {
+      localStorage.removeItem("signInAsEmployee");
       localStorage.setItem("signInAsAnSME", "true");
        await signInWithGooglePopUp();
        
@@ -66,6 +67,7 @@ export const SignIn = () => {
 
   const handleSignInAsEmployee = async () => {
     try {
+      localStorage.removeItem("signInAsAnSME");
       localStorage.setItem("signInAsEmployee", "true");
     await signInWithGooglePopUp();
     } catch (error) {

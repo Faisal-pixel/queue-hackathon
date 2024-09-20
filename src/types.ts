@@ -11,11 +11,12 @@ export type Tsme = {
 export type TCustomer = {
     ticketNo: number;
     customerName: string;
-    customerPhone: string;
+    customerPhone?: string;
     customerEmail: string;
-    status: string;
-    ready: Timestamp;
+    status?: string;
+    ready?: Timestamp;
     notified: boolean;
+    fcMToken?: string;
 }
 
 export type TEmployee = {

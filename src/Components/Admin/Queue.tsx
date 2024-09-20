@@ -105,14 +105,14 @@ const TicketTable = () => {
   };
 
   const handleGenerateQr = () => {
-    const smeIdentifier = currentSME?.smeName || currentEmployee?.smeMail || currentUser?.email;
+    const smeIdentifier = currentEmployee?.smeMail || currentUser?.email;
     const location = window.location.href;
     const parsedUrl = new URL(location);
 
     if (location?.includes(`localhost`)) {
-      setQrUrl(`${parsedUrl.protocol}//${parsedUrl.host}/${smeIdentifier}`);
+      setQrUrl(`${parsedUrl.protocol}//${parsedUrl.host}/queue/${smeIdentifier}`);
     } else {
-      setQrUrl(`https://queue-bice.vercel.app/${smeIdentifier}`);
+      setQrUrl(`https://queue-bice.vercel.app/queue/${smeIdentifier}`);
     }
 
     toast({
@@ -150,6 +150,11 @@ const TicketTable = () => {
   };
 
   const formatId = (id: number) => id.toString().padStart(3, "0");
+
+  // const handleNotifyClicked = async () => {
+  //   console.log("Notify clicked");
+  //  await callOnMessage();
+  // }
 
   return (
     <div className="flex flex-col p-4 gap-y-5">
@@ -197,8 +202,9 @@ const TicketTable = () => {
                 <th className="border px-4 py-2 text-center">Name</th>
                 <th className="border px-4 py-2 text-center">Email</th>
                 <th className="border px-4 py-2 text-center">Phone</th>
-                <th className="border px-4 py-2 text-center">Ready In</th>
-                <th className="border px-4 py-2 text-center">Actions</th>
+                {/* <th className="border px-4 py-2 text-center">Ready In</th> */}
+                <th className="border px-4 py-2 text-center">Delete</th>
+                {/* <th className="border px-4 py-2 text-center">Notify</th> */}
               </tr>
             </thead>
             <tbody>
@@ -217,11 +223,11 @@ const TicketTable = () => {
                     <p>{ticket.customerPhone}</p>
                   </td>
 
-                  <td className="border px-4 py-2 text-center break-words">
+                  {/* <td className="border px-4 py-2 text-center break-words">
                     <p>
                       {ticket.ready && ticket.ready.toDate().toLocaleString()}
                     </p>
-                  </td>
+                  </td> */}
                   <td className="border px-4 py-2 text-center break-words">
                     <button
                       onClick={() =>
@@ -232,6 +238,16 @@ const TicketTable = () => {
                       Delete
                     </button>
                   </td>
+                  {/* <td className="border px-4 py-2 text-center break-words">
+                    <button
+                      onClick={() =>
+                        handleNotifyClicked()
+                      }
+                      className="bg-red-500 text-white px-2 py-1"
+                    >
+                      Notify
+                    </button>
+                  </td> */}
                 </tr>
               ))}
             </tbody>

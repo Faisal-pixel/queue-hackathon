@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, User } from "firebase/auth";
 import { deleteDoc, doc, getDoc, getFirestore, setDoc, Timestamp, updateDoc } from "firebase/firestore";
 import { TCustomer, TEmployee, Tsme } from "../types";
+import { getMessaging, onMessage} from "firebase/messaging";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -14,7 +15,7 @@ const firebaseConfig = {
     appId: "1:108940034300:web:12a4e389d9363d41ced779"
   };
 
-  initializeApp(firebaseConfig);
+  const app = initializeApp(firebaseConfig);
   const googleProvider = new GoogleAuthProvider();
     googleProvider.setCustomParameters({
     prompt: "select_account"
@@ -162,12 +163,14 @@ export const updateQueueForSME = async (smeEmail: string, queue: TCustomer[]) =>
     const existingQueue = smeSnapshot.data().queue || [];
 
     const filteredQueue = queue.filter((queue) => {
-        return !existingQueue.some((existingCustomer: TCustomer)  => existingCustomer.ticketNo === queue.ticketNo);
+        return !existingQueue.some((existingCustomer: TCustomer)  => existingCustomer.customerName === queue.customerName && existingCustomer.customerEmail === queue.customerEmail);
     });
+
+    console.log("filteredQueue", filteredQueue);
 
     if (filteredQueue.length === 0) {
         console.log("No new customers to add.");
-        return "No new customers added to the queue.";
+        return false;
       }
 const updatedQueue = [...existingQueue, ...filteredQueue];
     try {
@@ -175,7 +178,7 @@ const updatedQueue = [...existingQueue, ...filteredQueue];
             queue: updatedQueue
         })
 
-        return "Queue updated successfully";
+        return updatedQueue as TCustomer[];
     } catch(error) {
         if( error instanceof Error) {
             console.log("error adding queue to sme", error.message);
@@ -193,10 +196,17 @@ const updatedQueue = [...existingQueue, ...filteredQueue];
 export const deleteCustomerFromQueue = async (smeEmail: string, ticketNo: number) => {
   const smeDocRef = doc(db, "sme", smeEmail);
   const smeSnapshot = await getDoc(smeDocRef);
+  console.log(ticketNo);
 
   if(smeSnapshot.exists()) {
     const existingQueue = smeSnapshot.data().queue || [];
-    const updatedQueue = existingQueue.filter((customer: TCustomer) => customer.ticketNo !== ticketNo);
+    const removed = existingQueue.filter((customer: TCustomer) => customer.ticketNo !== ticketNo);
+    const updatedQueue = removed.map((customer: TCustomer, index: number) => {
+        return {
+            ...customer,
+            ticketNo: index + 1
+        }
+    });
 
     try {
         await updateDoc(smeDocRef, {
@@ -362,3 +372,16 @@ export const getEmployeeCollection = async (userAuth: User) => {
 
   return false
 }
+
+
+// MESSAGING
+
+export const messaging = getMessaging(app);
+
+export const callOnMessage = async () => {
+  onMessage(messaging, (payload) => {
+    console.log('Message received. ', payload);
+    // ...
+  });
+}
+
