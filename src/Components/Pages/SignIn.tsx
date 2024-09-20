@@ -66,6 +66,7 @@ export const SignIn = () => {
   
 
   const handleSignInAsEmployee = async () => {
+    
     try {
       localStorage.removeItem("signInAsAnSME");
       localStorage.setItem("signInAsEmployee", "true");
