@@ -69,14 +69,14 @@ const StaffManager: React.FC = () => {
         setStaffList(updatedList);
     };
 
-    const handleEditStaff = (id: string) => {
-        const staffToEdit = staffList.find((staff) => staff.email === id);
-        if (staffToEdit) {
-            setEditingStaffId(id);
-            setEditingStaffName(staffToEdit.firstName + staffToEdit.lastName);
-            setEditingStaffEmail(staffToEdit.email);
-        }
-    };
+    // const handleEditStaff = (id: string) => {
+    //     const staffToEdit = staffList.find((staff) => staff.email === id);
+    //     if (staffToEdit) {
+    //         setEditingStaffId(id);
+    //         setEditingStaffName(staffToEdit.firstName + staffToEdit.lastName);
+    //         setEditingStaffEmail(staffToEdit.email);
+    //     }
+    // };
 
     const handleSaveEdit = () => {
         const updatedList = staffList.map((staff) =>
@@ -158,12 +158,12 @@ const StaffManager: React.FC = () => {
                     <td className="p-2 max-w-24 break-words md:max-w-none md:whitespace-nowrap">{staff.email}</td>
                     <td className="p-2">
                         <div className="flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:space-x-2 justify-center">
-                            <button
+                            {/* <button
                                 onClick={() => handleEditStaff(staff.email)}
                                 className="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500 focus:outline-none"
                             >
                                 Edit
-                            </button>
+                            </button> */}
                             <button
                                 onClick={() => handleDeleteStaff(staff.email)}
                                 className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none"
