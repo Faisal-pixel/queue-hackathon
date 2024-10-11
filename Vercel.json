@@ -1,12 +1,5 @@
 {
-  "routes": [
-    { "src": "/", "dest": "/" },
-    { "src": "/sign-in-as-admin", "dest": "/" },
-    { "src": "/admin-queue", "dest": "/" },
-    { "src": "/signin", "dest": "/" },   
-    { "src": "/settings", "dest": "/" },   
-    { "src": "/company-name", "dest": "/" }
-  ],
+ 
   "rewrites": [
     {
       "source": "/(.*)",
