@@ -109,11 +109,12 @@ const TicketTable = () => {
     const location = window.location.href;
     const parsedUrl = new URL(location);
 
-    if (location?.includes(`localhost`)) {
+    if (location){
       setQrUrl(`${parsedUrl.protocol}//${parsedUrl.host}/queue/${smeIdentifier}`);
-    } else {
-      setQrUrl(`https://queue-wheat.vercel.app//queue/${smeIdentifier}`);
-    }
+    } 
+    // else {
+    //   setQrUrl(`https://queue-wheat.vercel.app/queue/${smeIdentifier}`);
+    // }
 
     toast({
       description: "QR code generated successfully",
