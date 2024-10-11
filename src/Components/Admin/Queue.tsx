@@ -115,6 +115,8 @@ const TicketTable = () => {
     // else {
     //   setQrUrl(`https://queue-wheat.vercel.app/queue/${smeIdentifier}`);
     // }
+    console.log(qrUrl)
+    console.log(qrCodeRef)
 
     toast({
       description: "QR code generated successfully",
