@@ -11,7 +11,8 @@ import { useToast } from "@/hooks/use-toast";
 import { useContext, useState, useRef, useEffect } from "react";
 
 const TicketTable = () => {
-  const { currentSME, currentUser, currentEmployee, setCurrentSME } = useContext(GlobalContext);
+  const { currentSME, currentUser, currentEmployee, setCurrentSME } =
+    useContext(GlobalContext);
   const [tickets, setTickets] = useState<TCustomer[]>([]);
   const [qrUrl, setQrUrl] = useState<string>("");
 
@@ -109,19 +110,22 @@ const TicketTable = () => {
     const location = window.location.href;
     const parsedUrl = new URL(location);
 
-    if (location){
-      setQrUrl(`${parsedUrl.protocol}//${parsedUrl.host}/queue/${smeIdentifier}`);
-    } 
+    if (location) {
+      setQrUrl(
+        `${parsedUrl.protocol}//${parsedUrl.host}/queue/${smeIdentifier}`
+      );
+    }
     // else {
     //   setQrUrl(`https://queue-wheat.vercel.app/queue/${smeIdentifier}`);
     // }
-    console.log(qrUrl)
-    console.log(qrCodeRef)
 
     toast({
       description: "QR code generated successfully",
     });
   };
+
+  console.log(qrUrl);
+  console.log(qrCodeRef);
 
   const downloadQRCode = () => {
     if (!qrCodeRef.current) return;
