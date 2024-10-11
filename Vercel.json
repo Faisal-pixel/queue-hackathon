@@ -5,7 +5,7 @@
     { "src": "/admin-queue", "dest": "/" },
     { "src": "/signin", "dest": "/" },   
     { "src": "/settings", "dest": "/" },   
-    { "src": "/company-name", "dest": "/" }
+    { "src": "/company-name", "dest": "/" },
     { "src": "/queue", "dest": "/" }
   ],
   "rewrites": [
