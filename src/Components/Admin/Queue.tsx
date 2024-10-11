@@ -112,7 +112,7 @@ const TicketTable = () => {
     if (location?.includes(`localhost`)) {
       setQrUrl(`${parsedUrl.protocol}//${parsedUrl.host}/queue/${smeIdentifier}`);
     } else {
-      setQrUrl(`https://queue-not.vercel.app/queue/${smeIdentifier}`);
+      setQrUrl(`https://queue-wheat.vercel.app//queue/${smeIdentifier}`);
     }
 
     toast({
