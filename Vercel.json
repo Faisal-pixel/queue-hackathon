@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    {"source": "/queue/:smeEmail", "destination": "/"},
     {
       "source": "/(.*)",
       "destination": "/"
